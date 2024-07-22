@@ -1,10 +1,5 @@
 ---
-# Per environment values which override defaults in hmpps-github-discovery/values.yaml
-
-generic-service:
-  env:
-    REFRESH_INTERVAL_HOURS: "6"
-    LOG_LEVEL: info
+# Per environment values which override defaults in hmpps-github-actions-runner/values.yaml
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-sre-alerts

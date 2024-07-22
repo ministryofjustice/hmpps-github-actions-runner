@@ -2,10 +2,10 @@
 FROM public.ecr.aws/ubuntu/ubuntu@sha256:4f5ca1c8b7abe2bd1162e629cafbd824c303b98954b1a168526aca6021f8affe
 
 LABEL org.opencontainers.image.vendor="Ministry of Justice" \
-      org.opencontainers.image.authors="Analytical Platform" \
+      org.opencontainers.image.authors="HMPPS DPS" \
       org.opencontainers.image.title="Actions Runner" \
-      org.opencontainers.image.description="Actions Runner image for Analytical Platform" \
-      org.opencontainers.image.url="https://github.com/ministryofjustice/analytical-platform-actions-runner"
+      org.opencontainers.image.description="Actions Runner image for HMPPS DPS" \
+      org.opencontainers.image.url="https://github.com/ministryofjustice/hmpps-github-actions-runner"
 
 ENV CONTAINER_USER="runner" \
     CONTAINER_UID="10000" \
