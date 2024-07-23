@@ -1,6 +1,5 @@
 # dotenv environment variables file
 .env*
-
 .python-version
 .idea
 .vscode
