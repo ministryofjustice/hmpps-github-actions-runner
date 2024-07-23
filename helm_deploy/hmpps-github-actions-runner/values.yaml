@@ -7,7 +7,7 @@ generic-service:
   image:
     repository: ghcr.io/ministryofjustice/hmpps-github-actions-runner
     tag: xxx    # override at deployment time
-  # port: 8080  # Not opening a port any more
+    port: 8080
 
   ingress:
     enabled: false
