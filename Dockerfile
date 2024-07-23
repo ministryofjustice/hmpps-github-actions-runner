@@ -63,7 +63,7 @@ EOF
 
 COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-USER ${CONTAINER_USER}
+USER ${CONTAINER_UID}
 
 WORKDIR ${CONTAINER_HOME}
 
