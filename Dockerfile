@@ -7,9 +7,9 @@ LABEL org.opencontainers.image.vendor="Ministry of Justice" \
       org.opencontainers.image.description="Actions Runner image for HMPPS DPS" \
       org.opencontainers.image.url="https://github.com/ministryofjustice/hmpps-github-actions-runner"
 
-ENV CONTAINER_USER="runner" \
+ENV CONTAINER_USER="1000" \
     CONTAINER_UID="10000" \
-    CONTAINER_GROUP="runner" \
+    CONTAINER_GROUP="1000" \
     CONTAINER_GID="10000" \
     CONTAINER_HOME="/actions-runner" \
     DEBIAN_FRONTEND="noninteractive" \
