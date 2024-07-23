@@ -48,6 +48,7 @@ generic-service:
   namespace_secrets:
     hmpps-github-actions-runner:
       GITHUB_REPOSITORY: "GITHUB_REPOSITORY"
+      GITHUB_TOKEN: "GITHUB_TOKEN"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-github-actions-runner

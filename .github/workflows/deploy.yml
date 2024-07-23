@@ -51,4 +51,3 @@ jobs:
           cluster: ${{ secrets.KUBE_CLUSTER }}
           namespace: ${{ secrets.KUBE_NAMESPACE }}
           token: ${{ secrets.KUBE_TOKEN }}   
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
