@@ -38,6 +38,9 @@ else
   EPHEMERAL_FLAG=""
 fi
 
+echo "Checking the runner"
+bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" --check --url "https://github.com/${GITHUB_REPOSITORY}" --pat ${GITHUB_TOKEN}
+
 echo "Configuring runner"
 bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
   --unattended \
