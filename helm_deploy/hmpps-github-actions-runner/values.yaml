@@ -9,6 +9,9 @@ generic-service:
     tag: xxx    # override at deployment time
     port: 8080
 
+  securityContext:
+    runAsUser: 10000
+
   ingress:
     enabled: false
 
