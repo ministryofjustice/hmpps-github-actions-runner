@@ -1,0 +1,14 @@
+name: "Run a script"
+description: "Runs a script for a number of minutes"
+runs:
+  using: "composite"
+  steps:
+  - name: Checkout code
+    uses: actions/checkout@v4
+  - id: run-script
+    name: Get Service Catalogue Data
+    run: python3 ./scripts/wait-minutes.py
+    shell: bash
+    env:
+      OPTIONS: "${{ env.options }}"
+
