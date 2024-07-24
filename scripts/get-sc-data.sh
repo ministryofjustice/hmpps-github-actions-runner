@@ -42,7 +42,7 @@ http_sc() {
 echo "COMPONENT_NAME is ${COMPONENT_NAME}" >&2
 
 #COMPONENT_SETTINGS=$(http_sc "components?filters[name][\$eq]=${COMPONENT_NAME}&populate=*")
-COMPONENT_SETTINGS=$(http_sc "components?filters[name][\$eq]=${COMPONENT_NAME}&populate[0]=product&populate[1]=environments")
+COMPONENT_SETTINGS=$(http_sc "components?filters[name][%24eq]=${COMPONENT_NAME}&populate[0]=product&populate[1]=environments")
 
 if [ $(echo $COMPONENT_SETTINGS | jq ".meta.pagination.total") -eq 0 ]
 then 
