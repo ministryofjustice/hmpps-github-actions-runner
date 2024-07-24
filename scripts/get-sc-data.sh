@@ -20,7 +20,7 @@ set -e
 # Setup SC session
 SC_API_ENDPOINT="https://service-catalogue.hmpps.service.justice.gov.uk/v1"
 
-SC_HTTPIE_SESSION="./.httpie_session_sc.json"
+SC_HTTPIE_SESSION="/tmp/.httpie_session_sc.json"
 SC_HTTPIE_OPTS=("--check-status" "--timeout=4.5" "--session-read-only=${SC_HTTPIE_SESSION}")
 
 echo "Service catalogue API_KEY is ${SERVICE_CATALOGUE_API_KEY:0:5}..${SERVICE_CATALOGUE_API_KEY:250:255}" >&2
@@ -42,7 +42,7 @@ http_sc() {
 echo "COMPONENT_NAME is ${COMPONENT_NAME}" >&2
 
 #COMPONENT_SETTINGS=$(http_sc "components?filters[name][\$eq]=${COMPONENT_NAME}&populate=*")
-COMPONENT_SETTINGS=$(http_sc GET "components?filters[name][\$eq]=${COMPONENT_NAME}&populate[0]=product&populate[1]=environments")
+COMPONENT_SETTINGS=$(http_sc "components?filters[name][\$eq]=${COMPONENT_NAME}&populate[0]=product&populate[1]=environments")
 
 if [ $(echo $COMPONENT_SETTINGS | jq ".meta.pagination.total") -eq 0 ]
 then 
