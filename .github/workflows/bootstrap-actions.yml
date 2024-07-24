@@ -1,30 +1,67 @@
-# Test workflow
+# This is intended to be the main workflow from which actions are run to bootstrap a new project
 #
+# Requires
+# 
+# Secrets
+# SERVICE_CATALOGUE_API_KEY
+# QUAYIO_TOKEN
+# CIRCLECI_TOKEN
+#
+# Steps
+# Prompt for the component name (must match service catalogue)
+# Gather information from Service Catalogue fo rthis component
+# Optional bits:
+#   Create the github repository based on the template
+#   Configure CircleCI
+#   Configure QuayIO
+#   Configue kubectl namespace secrets and things
+#
+# Maybe some options to exclude / only include some elements like the bootstrap.sh
+# - k specify whether to only run the circleci kubectl changes
+# - s specify whether to only run the service catalogue changes
+# - r specify whether to only run the github and service catalogue changes
 
 name: Bootstrap Actions Workflow Dispatch
 
 on:
   workflow_dispatch:
     inputs: 
+      component:
+        description: 'The component to bootstrap (needs to be in the Service Catalogue)'
+        required: true
       options:
         type: choice
-        description: 'How many minutes to run for'
+        description: 'Bootstrap options (default: full bootstrap, including github repo)'
         required: true
-        default: '10'
+        default: 'full'
         options:
-        - '1'
-        - '10'
-        - '30'
+        - 'full'
+        - 'kubectl only'
+        - 'github only'
 
 jobs:
   deploy: 
-    runs-on: [self-hosted, Linux, X64, hmpps-github-actions-runner]
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "Running a script for ${{ github.event.inputs.options }} 10 minutes"
+      - run: echo "Running ${{ github.event.inputs.options }} component ${{ github.event.inputs.component }}"
+      - name: Install jq
+        run: sudo apt-get install -y jq httpie 
       - name: Checkout code
         uses: actions/checkout@v4
       - id: get_sc_data
-        name: Run a script
-        uses: ./.github/actions/run-script
+        name: Get service catalogue data
+        uses: ./.github/actions/get-sc-data
         env:
-            options: ${{ github.event.inputs.options }}     
+            github_repo_name: ${{ github.event.inputs.component }}     
+            service_catalogue_api_key: "${{ secrets.SERVICE_CATALOGUE_API_KEY }}"   
+      - id: update_quayio
+        name: Updates quay.io with component information
+        uses: ./.github/actions/update-quayio
+        if: ${{ github.event.inputs.options == 'full' || github.event.inputs.options == 'kubectl only' }}
+        env:
+          github_repo_name: ${{ github.event.inputs.component }}
+          github_repo_description: "${{ steps.get_sc_data.outputs.component_description }}"
+          quay_io_token: "${{ secrets.QUAYIO_TOKEN }}"
+          circle_ci_token: "${{ secrets.CIRCLECI_TOKEN }}"
+    
+
