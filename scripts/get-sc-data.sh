@@ -29,14 +29,16 @@ echo "Service catalogue API_KEY is ${SERVICE_CATALOGUE_API_KEY:0:5}..${SERVICE_C
 if ! OUTPUT=$(http --check-status --ignore-stdin --session=${SC_HTTPIE_SESSION} "${SC_API_ENDPOINT}/components" "Authorization: Bearer ${SERVICE_CATALOGUE_API_KEY}"); then
   echo "Unable to talk to Service Catalogue API, check connectivity and API token value set correctly." >&2
   echo "$OUTPUT" >&2
-  # exit 1
+  exit 1
+else
+  echo "Connected to Service Catalogue API" >&2
 fi
 
 http_sc() {
   http "${SC_HTTPIE_OPTS[@]}" "${SC_API_ENDPOINT}/$@"
 }
 
-project_name=$COMPONENT_NAME
+echo "COMPONENT_NAME is ${COMPONENT_NAME}" >&2
 
 #COMPONENT_SETTINGS=$(http_sc "components?filters[name][\$eq]=${COMPONENT_NAME}&populate=*")
 COMPONENT_SETTINGS=$(http_sc "components?filters[name][\$eq]=${COMPONENT_NAME}&populate[0]=product&populate[1]=environments")
