@@ -46,7 +46,8 @@ apt-get install --yes --no-install-recommends \
   "lsb-release=12.0-2" \
   "gcc=4:13.2.0-7ubuntu1" \
   "libsqlite3-dev=3.45.1-1ubuntu2" \
-  "python3"
+  "python3" \
+  "httpie"
 
 apt-get clean
 

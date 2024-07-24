@@ -44,8 +44,6 @@ jobs:
     runs-on: [self-hosted, hmpps-github-actions-runner]
     steps:
       - run: echo "Running ${{ github.event.inputs.options }} component ${{ github.event.inputs.component }}"
-      - name: Install jq
-        run: sudo apt-get install -y jq httpie 
       - name: Checkout code
         uses: actions/checkout@v4
       - id: get_sc_data
