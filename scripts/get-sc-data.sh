@@ -23,7 +23,7 @@ SC_API_ENDPOINT="https://service-catalogue.hmpps.service.justice.gov.uk/v1"
 SC_HTTPIE_SESSION="./.httpie_session_sc.json"
 SC_HTTPIE_OPTS=("--check-status" "--timeout=4.5" "--session-read-only=${SC_HTTPIE_SESSION}")
 
-# echo "Service catalogue API_KEY is ${SERVICE_CATALOGUE_API_KEY:0:5}..${SERVICE_CATALOGUE_API_KEY:250:255}" >&2
+echo "Service catalogue API_KEY is ${SERVICE_CATALOGUE_API_KEY:0:5}..${SERVICE_CATALOGUE_API_KEY:250:255}" >&2
 
 # Setup httpie session, enable preview API features
 if ! OUTPUT=$(http --check-status --ignore-stdin --session=${SC_HTTPIE_SESSION} "${SC_API_ENDPOINT}/components" "Authorization: Bearer ${SERVICE_CATALOGUE_API_KEY}"); then
