@@ -35,7 +35,7 @@ else
 fi
 
 http_sc() {
-  # echo "Command is http --debug ${SC_HTTPIE_OPTS[@]} ${SC_API_ENDPOINT}/$@"
+  echo "Command is http --debug ${SC_HTTPIE_OPTS[@]} ${SC_API_ENDPOINT}/$@" >&2
   http "${SC_HTTPIE_OPTS[@]}" "${SC_API_ENDPOINT}/$@"
 }
 
