@@ -45,7 +45,8 @@ apt-get install --yes --no-install-recommends \
   "libicu-dev=74.2-1ubuntu3" \
   "lsb-release=12.0-2" \
   "gcc=4:13.2.0-7ubuntu1" \
-  "libsqlite3-dev=3.45.1-1ubuntu2"
+  "libsqlite3-dev=3.45.1-1ubuntu2" \
+  "python3"
 
 apt-get clean
 
