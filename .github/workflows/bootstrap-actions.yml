@@ -18,7 +18,7 @@ on:
 
 jobs:
   deploy: 
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, hmpps-github-actions-runner]
     steps:
       - run: echo "Running a script for ${{ github.event.inputs.options }} 10 minutes"
       - name: Checkout code
