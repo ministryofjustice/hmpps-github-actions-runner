@@ -34,17 +34,10 @@ else
   echo "Connected to Service Catalogue API" >&2
 fi
 
-http_sc() {
-  echo "Command is http --debug ${SC_HTTPIE_OPTS[@]} ${SC_API_ENDPOINT}/$@" >&2
-  http "${SC_HTTPIE_OPTS[@]}" "${SC_API_ENDPOINT}/$@"
-}
-
 echo "COMPONENT_NAME is ${COMPONENT_NAME}" >&2
 
 #COMPONENT_SETTINGS=$(http_sc "components?filters[name][\$eq]=${COMPONENT_NAME}&populate=*")
-#COMPONENT_SETTINGS=$(http_sc "components?filters[name][%24eq]=${COMPONENT_NAME}&populate[0]=product&populate[1]=environments")
-
-COMPONENT_SETTINGS=$(http_sc "components")
+COMPONENT_SETTINGS=$(http --check-status --timeout=4 --session-read-only="${SC_HTTPIE_SESSION}" "${SC_API_ENDPOINT}/components?filters[name][%24eq]=${COMPONENT_NAME}&populate[0]=product&populate[1]=environments")
 
 if [ $(echo $COMPONENT_SETTINGS | jq ".meta.pagination.total") -eq 0 ]
 then 
