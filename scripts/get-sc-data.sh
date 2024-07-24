@@ -35,7 +35,8 @@ else
 fi
 
 http_sc() {
-  http "${SC_HTTPIE_OPTS[@]}" "${SC_API_ENDPOINT}/$@"
+  echo "Command is http --debug ${SC_HTTPIE_OPTS[@]} ${SC_API_ENDPOINT}/$@"
+  http --debug "${SC_HTTPIE_OPTS[@]}" "${SC_API_ENDPOINT}/$@"
 }
 
 echo "COMPONENT_NAME is ${COMPONENT_NAME}" >&2
