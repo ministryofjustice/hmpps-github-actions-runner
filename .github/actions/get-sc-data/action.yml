@@ -41,7 +41,7 @@ runs:
     uses: actions/checkout@v4
   - id: get-sc-data
     name: Get Service Catalogue Data
-    run: bash ./scripts/get-sc-data.sh >> $GITHUB_OUTPUT
+    run: /usr/bin/python3 ./scripts/get-sc-data.py >> $GITHUB_OUTPUT
     shell: bash
     env:
       COMPONENT_NAME: "${{ env.github_repo_name }}"
