@@ -1,6 +1,8 @@
 # hmpps-github-actions-runner
 This deploys a github runner to a repository
 
+Based on [analytical-platform-actions-runner](https://github.com/ministryofjustice/analytical-platform-actions-runner)
+
 Needs a bunch of secrets:
 
 ### Repo secrets
