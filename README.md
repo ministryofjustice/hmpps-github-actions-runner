@@ -10,7 +10,7 @@ Needs a bunch of secrets:
 - KUBE_CLUSTER - Kubernetes cluster (found in ~/.kube/config)
 - KUBE_NAMESPACE - The namespace to which this runner will belong
 - KUBE_SERVER - the AWS eks instance on which the Kubernetes cluster is running (API endpoint)
-- KUBE_TOKEN - a token to gain access to the Kubernetes cluster. It's the long one.
+- KUBE_TOKEN - a token to gain access to the Kubernetes cluster. It's the long one in ~/.kube/config
 
 Note: The Kubernetes environmet variables can be populated as part of the bootstrap process (I think?)
 
