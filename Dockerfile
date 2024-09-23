@@ -14,7 +14,7 @@ ENV CONTAINER_USER="runner" \
     CONTAINER_HOME="/actions-runner" \
     DEBIAN_FRONTEND="noninteractive" \
     ACTIONS_RUNNER_VERSION="2.319.1" \
-    ACTIONS_RUNNER_PKG_SHA="30a523019a27c97da3f2145252dad9478b7427a8b484a0c775f3a8605d84d35d"
+    ACTIONS_RUNNER_PKG_SHA="3f6efb7488a183e291fc2c62876e14c9ee732864173734facc85a1bfb1744464"
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 
@@ -39,10 +39,10 @@ apt-get update
 apt-get install --yes --no-install-recommends \
   "apt-transport-https=2.7.14build2" \
   "ca-certificates=20240203" \
-  "curl" \
-  "git=1:2.43.0-1ubuntu7" \
+  "curl=8.5.0-2ubuntu10.4" \
+  "git=1:2.43.0-1ubuntu7.1" \
   "jq=1.7.1-3build1" \
-  "libicu-dev=74.2-1ubuntu3" \
+  "libicu-dev=74.2-1ubuntu3.1" \
   "lsb-release=12.0-2" \
   "gcc=4:13.2.0-7ubuntu1" \
   "libsqlite3-dev=3.45.1-1ubuntu2" \
