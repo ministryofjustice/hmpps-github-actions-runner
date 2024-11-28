@@ -50,5 +50,8 @@ bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
   --name "$(hostname)" \
   --labels "${RUNNER_LABELS}"
 
+echo "Setting the 'ready' flag for Kubernetes liveness probe"
+touch /tmp/runner.ready
+
 echo "Starting runner"
 bash "${ACTIONS_RUNNER_DIRECTORY}/run.sh"
