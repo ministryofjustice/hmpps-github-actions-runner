@@ -5,6 +5,7 @@ generic-service:
   replicaCount: 1 # we can start with one and do more
 
   env:
+    GITHUB_REPOSITORY: ministryofjustice/hmpps-project-bootstrap
     RUNNER_LABELS: hmpps-github-actions-runner
 
   image:
@@ -44,11 +45,6 @@ generic-service:
   # namespace_secrets:
   #   [name of kubernetes secret]:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
-
-  namespace_secrets:
-    hmpps-github-actions-runner:
-      GITHUB_REPOSITORY: "GITHUB_REPOSITORY"
-      GITHUB_TOKEN: "GITHUB_TOKEN"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-github-actions-runner

@@ -13,8 +13,8 @@ ENV CONTAINER_USER="runner" \
     CONTAINER_GID="10000" \
     CONTAINER_HOME="/actions-runner" \
     DEBIAN_FRONTEND="noninteractive" \
-    ACTIONS_RUNNER_VERSION="2.319.1" \
-    ACTIONS_RUNNER_PKG_SHA="3f6efb7488a183e291fc2c62876e14c9ee732864173734facc85a1bfb1744464"
+    ACTIONS_RUNNER_VERSION="2.321.0" \
+    ACTIONS_RUNNER_PKG_SHA="ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 
@@ -37,18 +37,18 @@ chown --recursive ${CONTAINER_USER}:${CONTAINER_GROUP} ${CONTAINER_HOME}
 apt-get update
 
 apt-get install --yes --no-install-recommends \
-  "apt-transport-https=2.7.14build2" \
-  "ca-certificates=20240203" \
-  "curl=8.5.0-2ubuntu10.4" \
-  "git=1:2.43.0-1ubuntu7.1" \
-  "jq=1.7.1-3build1" \
-  "libicu-dev=74.2-1ubuntu3.1" \
-  "lsb-release=12.0-2" \
-  "gcc=4:13.2.0-7ubuntu1" \
-  "libsqlite3-dev=3.45.1-1ubuntu2" \
+  "apt-transport-https" \
+  "ca-certificates" \
+  "curl" \
+  "git" \
+  "jq" \
+  "libicu-dev" \
+  "lsb-release" \
+  "gcc" \
+  "libsqlite3-dev" \
   "python3" \
   "httpie"
-
+ 
 apt-get clean
 
 rm -rf /var/lib/apt/lists/*

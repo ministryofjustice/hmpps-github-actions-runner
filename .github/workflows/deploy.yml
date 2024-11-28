@@ -31,7 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-
     environment:
       name: ${{ inputs.environment }}  
     steps:
@@ -40,6 +39,12 @@ jobs:
         id: env
         with:
           environment: ${{ inputs.environment }}
+
+      - uses: actions/create-github-app-token@v1
+        id: github-app-token
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
       - name: Deploy to Platform
         uses: ./.github/actions/cloud-platform-deploy
@@ -51,3 +56,11 @@ jobs:
           cluster: ${{ secrets.KUBE_CLUSTER }}
           namespace: ${{ secrets.KUBE_NAMESPACE }}
           token: ${{ secrets.KUBE_TOKEN }}   
+          gh_auth_token: ${{ steps.github-app-token.outputs.token }}
+
+      - name: Remove offline runners
+        uses: ./.github/actions/runner-cleanup
+        with:
+          gh_auth_token: ${{ steps.github-app-token.outputs.token }}
+          repository_name: ${{ vars.REPOSITORY_NAME }}
+      
