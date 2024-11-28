@@ -4,11 +4,6 @@ generic-service:
 
   replicaCount: 1 # we can start with one and do more
 
-  env:
-    # GITHUB_REPOSITORY: ministryofjustice/hmpps-project-bootstrap
-    GITHUB_REPOSITORY: ministryofjustice/hmpps-james-bootstrap
-    RUNNER_LABELS: hmpps-github-actions-runner
-
   image:
     repository: ghcr.io/ministryofjustice/hmpps-github-actions-runner
     tag: xxx    # override at deployment time
@@ -22,7 +17,7 @@ generic-service:
   # Looks like it might be fixed, so...
 
   livenessProbe: null
-  
+
   readinessProbe:
     httpGet: null
     exec:
