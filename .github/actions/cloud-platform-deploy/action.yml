@@ -73,4 +73,4 @@ runs:
           --wait \
           --set generic-service.env.GH_AUTH_TOKEN="${{ inputs.gh_auth_token }}"
           --set generic-service.env.RUNNER_LABELS="${{ inputs.runner_labels }}"
-          --set generic-service.env.GITHUB_REPOSITORY="${{ inputs_github_repository }}"
+          --set generic-service.env.GITHUB_REPOSITORY="${{ inputs.github_repository }}"
