@@ -58,11 +58,11 @@ jobs:
           token: ${{ secrets.KUBE_TOKEN }}   
           gh_auth_token: ${{ steps.github-app-token.outputs.token }}
           github_repository: ${{ vars.GH_REPOSITORY }}
-          runner_label: ${{ secrets.RUNNER_LABEL }}
+          runner_labels: ${{ secrets.RUNNER_LABELS }}
 
       - name: Remove offline runners
         uses: ./.github/actions/runner-cleanup
         with:
           gh_auth_token: ${{ steps.github-app-token.outputs.token }}
-          repository_name: ${{ vars.REPOSITORY_NAME }}
+          github_repository: ${{ vars.GH_REPOSITORY }}
       
