@@ -5,7 +5,8 @@ generic-service:
   replicaCount: 1 # we can start with one and do more
 
   env:
-    GITHUB_REPOSITORY: ministryofjustice/hmpps-project-bootstrap
+    # GITHUB_REPOSITORY: ministryofjustice/hmpps-project-bootstrap
+    GITHUB_REPOSITORY: ministryofjustice/hmpps-james-bootstrap
     RUNNER_LABELS: hmpps-github-actions-runner
 
   image:
@@ -21,25 +22,17 @@ generic-service:
   # Looks like it might be fixed, so...
 
   livenessProbe: null
-  readinessProbe: null
-
-  # livenessProbe:
-  #   httpGet:
-  #     path: /ping
-  #     port: 8080
-  #   initialDelaySeconds: 10
-  #   periodSeconds: 10
-  #   timeoutSeconds: 5
-  #   failureThreshold: 5
-
-  # readinessProbe:
-  #   httpGet:
-  #     path: /ping
-  #     port: 8080
-  #   initialDelaySeconds: 10
-  #   periodSeconds: 10
-  #   timeoutSeconds: 5
-  #   failureThreshold: 5
+  
+  readinessProbe:
+    httpGet: null
+    exec:
+      command:
+        - cat
+        - /tmp/runner.ready
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 5
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
