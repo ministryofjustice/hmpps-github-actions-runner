@@ -17,7 +17,7 @@ getRegistrationToken=$(
     --location \
     --request "POST" \
     --header "X-GitHub-Api-Version: 2022-11-28" \
-    --header "Authorization: Bearer ${GITHUB_TOKEN}" \
+    --header "Authorization: Bearer ${GH_AUTH_TOKEN}" \
     https://api.github.com/repos/"${GITHUB_REPOSITORY}"/actions/runners/registration-token | jq -r '.token'
 )
 export getRegistrationToken
