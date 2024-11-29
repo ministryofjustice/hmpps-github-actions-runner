@@ -44,7 +44,7 @@ jobs:
         uses: jamestrousdale/github-app-jwt-token@0.1.4
         id: generate-github-app-tokens
         with:
-          app-id: ${{ secrets.GH_APP_ID }}
+          app-id: ${{ vars.GH_APP_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
       - name: Deploy to Platform
