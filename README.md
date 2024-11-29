@@ -1,21 +1,26 @@
 # hmpps-github-actions-runner
-This deploys a github runner to a repository
+This deploys a self-hosted Github Runner to a single repository named in the repository variables.
 
-Needs a bunch of secrets:
+Documentation about it is [here](https://tech-docs.hmpps.service.justice.gov.uk/sreinternaldocs) 
+
+It's deployed to Cloud Platforms, using Helm.
+
+## Secrets/variables required:
 
 ### Repo secrets
 
-- GHCR_TOKEN - an app token that is used to build the image
+- GH_PRIVATE_KEY - A private key for a Github App that has rights to create runners in the destination repository
+
+### Environment secrets (populated by Cloud Platforms terraform)
+
 - KUBE_CERT - certificate for Kubernetes (can be found base64 encoded in ~/.kube/config)
 - KUBE_CLUSTER - Kubernetes cluster (found in ~/.kube/config)
-- KUBE_NAMESPACE - The namespace to which this runner will belong
+- KUBE_NAMESPACE - the namespace to which this runner will belong
 - KUBE_SERVER - the AWS eks instance on which the Kubernetes cluster is running (API endpoint)
 - KUBE_TOKEN - a token to gain access to the Kubernetes cluster. It's the long one.
 
-Note: The Kubernetes environmet variables can be populated as part of the bootstrap process (I think?)
+### Repo environment variables
 
-### Kubernetes namespace secrets
-
-- GITHUB_REPOSITORY - this is the repo to which the runner should be registered
-- GITHUB_TOKEN - this is the token to authenticate to the repo to which the runner will be attached
-
+- GH_APP_ID - the corresponding AppId for the Github App
+- GH_REPOSITORY - the repo to which the runner should be registered
+- RUNNER_LABELS - the label by which the runner is invoked
