@@ -40,10 +40,11 @@ jobs:
         with:
           environment: ${{ inputs.environment }}
 
-      - uses: actions/create-github-app-token@v1
-        id: github-app-token
+      - name: GitHub app JWT and installation access token generation
+        uses: jamestrousdale/github-app-jwt-token@0.1.4
+        id: generate-github-app-tokens
         with:
-          app-id: ${{ vars.GH_APP_ID }}
+          app-id: ${{ secrets.GH_APP_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
       - name: Deploy to Platform
@@ -56,7 +57,7 @@ jobs:
           cluster: ${{ secrets.KUBE_CLUSTER }}
           namespace: ${{ secrets.KUBE_NAMESPACE }}
           token: ${{ secrets.KUBE_TOKEN }}   
-          gh_auth_token: ${{ steps.github-app-token.outputs.token }}
+          gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
           github_repository: ${{ vars.GH_REPOSITORY }}
           runner_labels: ${{ vars.RUNNER_LABELS }}
 
