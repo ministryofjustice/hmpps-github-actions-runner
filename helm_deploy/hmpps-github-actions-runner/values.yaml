@@ -2,7 +2,7 @@
 generic-service:
   nameOverride: hmpps-github-actions-runner
 
-  replicaCount: 1 # we can start with one and do more
+  replicaCount: 2 # we can start with one and do more
 
   image:
     repository: ghcr.io/ministryofjustice/hmpps-github-actions-runner
