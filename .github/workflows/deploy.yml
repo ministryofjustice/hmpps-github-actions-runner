@@ -31,7 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-
     environment:
       name: ${{ inputs.environment }}  
     steps:
@@ -40,6 +39,13 @@ jobs:
         id: env
         with:
           environment: ${{ inputs.environment }}
+
+      - name: GitHub app JWT and installation access token generation
+        uses: jamestrousdale/github-app-jwt-token@0.1.4
+        id: generate-github-app-tokens
+        with:
+          app-id: ${{ vars.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
       - name: Deploy to Platform
         uses: ./.github/actions/cloud-platform-deploy
@@ -51,3 +57,13 @@ jobs:
           cluster: ${{ secrets.KUBE_CLUSTER }}
           namespace: ${{ secrets.KUBE_NAMESPACE }}
           token: ${{ secrets.KUBE_TOKEN }}   
+          gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
+          github_repository: ${{ vars.GH_REPOSITORY }}
+          runner_labels: ${{ vars.RUNNER_LABELS }}
+
+      - name: Remove offline runners
+        uses: ./.github/actions/runner-cleanup
+        with:
+          gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
+          github_repository: ${{ vars.GH_REPOSITORY }}
+      

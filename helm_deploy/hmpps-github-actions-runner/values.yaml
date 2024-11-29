@@ -2,10 +2,7 @@
 generic-service:
   nameOverride: hmpps-github-actions-runner
 
-  replicaCount: 1 # we can start with one and do more
-
-  env:
-    RUNNER_LABELS: hmpps-github-actions-runner
+  replicaCount: 2 # we can start with one and do more
 
   image:
     repository: ghcr.io/ministryofjustice/hmpps-github-actions-runner
@@ -20,35 +17,22 @@ generic-service:
   # Looks like it might be fixed, so...
 
   livenessProbe: null
-  readinessProbe: null
 
-  # livenessProbe:
-  #   httpGet:
-  #     path: /ping
-  #     port: 8080
-  #   initialDelaySeconds: 10
-  #   periodSeconds: 10
-  #   timeoutSeconds: 5
-  #   failureThreshold: 5
-
-  # readinessProbe:
-  #   httpGet:
-  #     path: /ping
-  #     port: 8080
-  #   initialDelaySeconds: 10
-  #   periodSeconds: 10
-  #   timeoutSeconds: 5
-  #   failureThreshold: 5
+  readinessProbe:
+    httpGet: null
+    exec:
+      command:
+        - cat
+        - /tmp/runner.ready
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 5
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
   #   [name of kubernetes secret]:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
-
-  namespace_secrets:
-    hmpps-github-actions-runner:
-      GITHUB_REPOSITORY: "GITHUB_REPOSITORY"
-      GITHUB_TOKEN: "GITHUB_TOKEN"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-github-actions-runner

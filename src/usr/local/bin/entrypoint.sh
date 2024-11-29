@@ -17,7 +17,7 @@ getRegistrationToken=$(
     --location \
     --request "POST" \
     --header "X-GitHub-Api-Version: 2022-11-28" \
-    --header "Authorization: Bearer ${GITHUB_TOKEN}" \
+    --header "Authorization: Bearer ${GH_AUTH_TOKEN}" \
     https://api.github.com/repos/"${GITHUB_REPOSITORY}"/actions/runners/registration-token | jq -r '.token'
 )
 export getRegistrationToken
@@ -39,7 +39,7 @@ else
 fi
 
 echo "Checking the runner"
-bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" --check --url "https://github.com/${GITHUB_REPOSITORY}" --pat ${GITHUB_TOKEN}
+bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" --check --url "https://github.com/${GITHUB_REPOSITORY}" --pat ${GH_AUTH_TOKEN}
 
 echo "Configuring runner"
 bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
@@ -49,6 +49,9 @@ bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
   --token "${REPO_TOKEN}" \
   --name "$(hostname)" \
   --labels "${RUNNER_LABELS}"
+
+echo "Setting the 'ready' flag for Kubernetes liveness probe"
+touch /tmp/runner.ready
 
 echo "Starting runner"
 bash "${ACTIONS_RUNNER_DIRECTORY}/run.sh"

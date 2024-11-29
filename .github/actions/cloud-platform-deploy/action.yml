@@ -23,11 +23,20 @@ inputs:
   token:
     description: The KUBE_TOKEN
     required: true
+  gh_auth_token:
+    description: Auth token for Github
+    required: true
+  github_repository:
+    description: The repository in which the runners are deployed
+    required: true
+  runner_labels:
+    description: The labels for the runners
+    required: true  
 
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Get environment details
       uses: ./.github/actions/get-env-details
@@ -61,4 +70,8 @@ runs:
           --set 'version=${{ inputs.version }}' \
           --timeout 10m \
           --values 'helm_deploy/${{ steps.env.outputs.values-file }}' \
-          --wait
+          --wait \
+          --set generic-service.env.GH_AUTH_TOKEN="${{ inputs.gh_auth_token }}" \
+          --set generic-service.env.RUNNER_LABELS="${{ inputs.runner_labels }}" \
+          --set generic-service.env.GITHUB_REPOSITORY="${{ inputs.github_repository }}" 
+          
