@@ -1,0 +1,30 @@
+name: Scheduled deployment
+
+on:
+  schedule:
+    - cron: "10 16,04 * * *" # Every 12 hours
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yml
+    with:
+      push: true
+    secrets: inherit
+  
+  # Only need to deploy to production nowadays
+  deploy_to_prod:
+    name: Deploy to prod
+    uses: ./.github/workflows/deploy.yml
+    needs:
+      - build
+    with:
+      environment: production
+      version: ${{ needs.build.outputs.version }}
+    secrets: inherit
+    permissions:
+      contents: write
+      deployments: write
+
