@@ -12,9 +12,10 @@ ENV CONTAINER_USER="runner" \
     CONTAINER_GROUP="runner" \
     CONTAINER_GID="10000" \
     CONTAINER_HOME="/actions-runner" \
-    DEBIAN_FRONTEND="noninteractive" \
-    ACTIONS_RUNNER_VERSION="2.321.0" \
-    ACTIONS_RUNNER_PKG_SHA="ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"
+    DEBIAN_FRONTEND="noninteractive"
+
+# Checked by renovate
+ENV ACTIONS_RUNNER_VERSION="2.320.0" 
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 
@@ -55,6 +56,11 @@ rm -rf /var/lib/apt/lists/*
 
 curl --location "https://github.com/actions/runner/releases/download/v${ACTIONS_RUNNER_VERSION}/actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz" \
   --output "actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz"
+
+# Validate the checksum
+ACTIONS_RUNNER_PKG_SHA=$(curl -s --location "https://github.com/actions/runner/releases/tag/v${ACTIONS_RUNNER_VERSION}" | grep -A10 "SHA-256 Checksums" | grep actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION} | awk -F'[<> ]' '{print $4}')
+echo "Release ACTIONS_RUNNER_PKG_SHA   : ${ACTIONS_RUNNER_PKG_SHA}"
+echo "Downloaded ACTIONS_RUNNER_PKG_SHA: $(sha256sum -b actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz) | cut -d\  -f1"
 
 echo "${ACTIONS_RUNNER_PKG_SHA}"  "actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz" | /usr/bin/sha256sum --check
 
