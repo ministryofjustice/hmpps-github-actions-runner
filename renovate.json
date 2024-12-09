@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "labels": ["dependencies", "github-actions"],
+  "regexManagers": [
+    {
+      "fileMatch": ["Dockerfile"],
+      "matchStrings": [
+        "ENV ACTIONS_RUNNER_VERSION=(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "actions/runner",
+      "versioningTemplate": "semver",
+      "extractVersionTemplate": "^v(?<version>\\d+\\.\\d+\\.\\d+)$"
+    }
+  ]
+}
