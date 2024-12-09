@@ -1,0 +1,44 @@
+name: Pipeline
+
+on:
+  schedule:
+    - cron: "30 */12 * * *" # Every 12 hours
+
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment
+        type: choice
+        required: true
+        options:
+          - development
+          - production
+      version:
+        description: Image version
+        type: string
+        required: true      
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yml
+    with:
+      push: true
+    secrets: inherit
+  
+  # Only need to deploy to production nowadays
+  deploy_to_prod:
+    if : github.ref == 'refs/heads/main'
+    name: Deploy to prod
+    uses: ./.github/workflows/deploy.yml
+    needs:
+      - build
+    with:
+      environment: production
+      version: ${{ needs.build.outputs.version }}
+    secrets: inherit
+    permissions:
+      contents: write
+      deployments: write
+
