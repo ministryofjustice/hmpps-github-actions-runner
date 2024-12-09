@@ -15,8 +15,8 @@ jobs:
     - name: Get PR details
       id: get_pr_details
       run: |
-        echo "::set-output name=title::$(jq -r .pull_request.title < $GITHUB_EVENT_PATH)"
-        echo "::set-output name=number::$(jq -r .pull_request.number < $GITHUB_EVENT_PATH)"
+        echo "title=$(jq -r .pull_request.title < $GITHUB_EVENT_PATH)" >> $GITHUB_OUTPUT
+        echo "number=$(jq -r .pull_request.number < $GITHUB_EVENT_PATH)" >> $GITHUB_OUTPUT
     - name: Run action if PR title contains 'actions/runner'
       if: contains(steps.get_pr_details.outputs.title, 'actions/runner')
       uses: ./.github/actions/runner-slack-notification
