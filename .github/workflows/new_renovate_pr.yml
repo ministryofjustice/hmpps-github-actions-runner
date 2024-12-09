@@ -1,4 +1,4 @@
-name: New PR created - Slack message if it's a renovate Dockerfile PR
+name: New PR (actions/runner check)
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ jobs:
       contents: write
     steps:
     - name: Check out code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Get PR details
       id: get_pr_details
       run: |
