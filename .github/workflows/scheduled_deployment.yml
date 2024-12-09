@@ -1,23 +1,10 @@
-name: Pipeline
+name: Scheduled deployment
 
 on:
   schedule:
-    - cron: "30 */12 * * *" # Every 12 hours
-
+    - cron: "10 16,04 * * *" # Every 12 hours
 
   workflow_dispatch:
-    inputs:
-      environment:
-        description: Environment
-        type: choice
-        required: true
-        options:
-          - development
-          - production
-      version:
-        description: Image version
-        type: string
-        required: true      
 
 jobs:
   build:
@@ -29,7 +16,6 @@ jobs:
   
   # Only need to deploy to production nowadays
   deploy_to_prod:
-    if : github.ref == 'refs/heads/main'
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
     needs:
