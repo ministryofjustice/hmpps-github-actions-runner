@@ -15,7 +15,7 @@ ENV CONTAINER_USER="runner" \
     DEBIAN_FRONTEND="noninteractive"
 
 # Checked by renovate
-ENV ACTIONS_RUNNER_VERSION="2.320.0" 
+ENV ACTIONS_RUNNER_VERSION="2.321.0" 
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 
