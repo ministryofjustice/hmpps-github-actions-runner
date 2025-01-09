@@ -49,7 +49,8 @@ bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
   --url "https://github.com/ministryofjustice" \
   --token "${REPO_TOKEN}" \
   --name "$(hostname)" \
-  --labels "${RUNNER_LABELS}"
+  --labels "${RUNNER_LABELS}" \
+  --runnergroup "hmpps-runners-restricted"
 
 echo "Setting the 'ready' flag for Kubernetes liveness probe"
 touch /tmp/runner.ready
