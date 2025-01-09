@@ -19,7 +19,7 @@ getRegistrationToken=$(
     --header "Accept: application/vnd.github+json" \
     --header "X-GitHub-Api-Version: 2022-11-28" \
     --header "Authorization: Bearer ${GH_AUTH_TOKEN}" \
-    https://api.github.com/org/ministryofjustice/actions/runners/registration-token | jq -r '.token'
+    https://api.github.com/orgs/ministryofjustice/actions/runners/registration-token | jq -r '.token'
 )
 export getRegistrationToken
 
