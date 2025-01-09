@@ -16,6 +16,7 @@ getRegistrationToken=$(
     --silent \
     --location \
     --request "POST" \
+    --header "Accept: application/vnd.github+json" \
     --header "X-GitHub-Api-Version: 2022-11-28" \
     --header "Authorization: Bearer ${GH_AUTH_TOKEN}" \
     https://api.github.com/org/ministryofjustice/actions/runners/registration-token | jq -r '.token'
@@ -39,7 +40,7 @@ else
 fi
 
 echo "Checking the runner"
-bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" --check --url "https://github.com/${GITHUB_REPOSITORY}" --pat ${GH_AUTH_TOKEN}
+bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" --check --url "https://github.com/ministryofjustice" --pat ${GH_AUTH_TOKEN}
 
 echo "Configuring runner"
 bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
