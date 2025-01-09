@@ -6,8 +6,8 @@ inputs:
   qty_runners:
     description: 'Number of expected runners'
     default: '1'
-  github_repository:
-    description: 'The repository in which the runners are deployed'
+  github_org:
+    description: 'The github org in which the runners are deployed'
     
 runs:
   using: "composite"
@@ -29,11 +29,11 @@ runs:
       # Attempts to remove any offline runners - giving time for old ones to expire
       def main():
         expected_number_of_runners=os.getenv('qty_runners',1)
-        github_repository=os.getenv('github_repository')
+        github_org=os.getenv('github_org')
         auth = Auth.Token(os.getenv('gh_auth_token'))
-        print(f'Repo name is: {github_repository}')
+        print(f'Repo name is: {github_org}')
         g = Github(auth=auth)
-        repo = g.get_repo(github_repository)
+        repo = g.get_repo(github_org)
         offline_deleted=False
         qty_runners=retry_count=0
         while qty_runners!=expected_number_of_runners and retry_count < 10:
@@ -53,5 +53,5 @@ runs:
         main()
     
     env:
-      github_repository: ${{ inputs.github_repository }}
+      github_org: ${{ inputs.github_org }}
       gh_auth_token: ${{ inputs.gh_auth_token }}

@@ -1,5 +1,5 @@
 # hmpps-github-actions-runner
-This deploys a self-hosted Github Runner to a single repository named in the repository variables.
+This deploys a self-hosted Github Runner to the organisation.
 
 Documentation about it is [here](https://tech-docs.hmpps.service.justice.gov.uk/sreinternaldocs) 
 
@@ -22,5 +22,5 @@ It's deployed to Cloud Platforms, using Helm.
 ### Repo environment variables
 
 - GH_APP_ID - the corresponding AppId for the Github App
-- GH_REPOSITORY - the repo to which the runner should be registered
+- GH_ORG - the org to which the runner should be registered
 - RUNNER_LABELS - the label by which the runner is invoked
