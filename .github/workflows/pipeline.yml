@@ -38,7 +38,7 @@ jobs:
 
   # Only need to deploy to production nowadays
   deploy_to_prod:
-    if : github.ref == 'refs/heads/main'
+    if : github.ref == 'refs/heads/matt-test'
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
     needs:

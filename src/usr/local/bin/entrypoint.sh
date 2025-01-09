@@ -18,7 +18,7 @@ getRegistrationToken=$(
     --request "POST" \
     --header "X-GitHub-Api-Version: 2022-11-28" \
     --header "Authorization: Bearer ${GH_AUTH_TOKEN}" \
-    https://api.github.com/repos/"${GITHUB_REPOSITORY}"/actions/runners/registration-token | jq -r '.token'
+    https://api.github.com/org/ministryofjustice/actions/runners/registration-token | jq -r '.token'
 )
 export getRegistrationToken
 
@@ -45,7 +45,7 @@ echo "Configuring runner"
 bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
   --unattended \
   --disableupdate \
-  --url "https://github.com/${GITHUB_REPOSITORY}" \
+  --url "https://github.com/ministryofjustice" \
   --token "${REPO_TOKEN}" \
   --name "$(hostname)" \
   --labels "${RUNNER_LABELS}"
