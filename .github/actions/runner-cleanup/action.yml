@@ -36,7 +36,7 @@ runs:
         # Calling unsupported PyGithub API endpoint
         url = f"https://api.github.com/orgs/{github_org}/actions/runners"
         headers = {
-            "Authorization": f"Bearer {auth_token}",
+            "Authorization": f"Bearer {gh_auth_token}",
             "Accept": "application/vnd.github+json"
         }
         response = requests.get(url, headers=headers)
