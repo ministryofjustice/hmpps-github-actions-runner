@@ -33,22 +33,36 @@ runs:
         auth = Auth.Token(os.getenv('gh_auth_token'))
         print(f'Repo name is: {github_org}')
         g = Github(auth=auth)
-        repo = g.get_repo(github_org)
-        offline_deleted=False
-        qty_runners=retry_count=0
-        while qty_runners!=expected_number_of_runners and retry_count < 10:
-          try:
-            runners = repo.get_self_hosted_runners() 
-            qty_runners=runners.totalCount
-            print(f'Attempt to clean up offline runners: {retry_count} - found {qty_runners} runners')
-            for each_runner in runners:
-              print(f'Checking runner {each_runner.name} with status {each_runner.status}')
-              if each_runner.status == 'offline':
-                success=repo.remove_self_hosted_runner(each_runner.id)
-          except:
-            print(f'Failed because {GithubException.message}')
-          retry_count+=1
-          sleep(10)
+        # Calling unsupported PyGithub API endpoint
+        url = f"https://api.github.com/orgs/{github_org}/actions/runners"
+        headers = {
+            "Authorization": f"Bearer {auth_token}",
+            "Accept": "application/vnd.github+json"
+        }
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            print("Successfully called GET /orgs/{github_org}/actions/runners runners endpoint")
+            data = response.json()
+            # Process the data as needed
+        else:
+            print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
+
+        # repo = g.get_repo(github_org)
+        # offline_deleted=False
+        # qty_runners=retry_count=0
+        # while qty_runners!=expected_number_of_runners and retry_count < 10:
+        #   try:
+        #     runners = repo.get_self_hosted_runners() 
+        #     qty_runners=runners.totalCount
+        #     print(f'Attempt to clean up offline runners: {retry_count} - found {qty_runners} runners')
+        #     for each_runner in runners:
+        #       print(f'Checking runner {each_runner.name} with status {each_runner.status}')
+        #       if each_runner.status == 'offline':
+        #         success=repo.remove_self_hosted_runner(each_runner.id)
+        #   except:
+        #     print(f'Failed because {GithubException.message}')
+        #   retry_count+=1
+        #   sleep(10)
       if __name__ == '__main__':
         main()
     
