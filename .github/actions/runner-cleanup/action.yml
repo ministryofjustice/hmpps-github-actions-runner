@@ -24,6 +24,7 @@ runs:
       from github import Auth
       from github import Github
       from github import GithubException
+      import requests
       import os
       from time import sleep
       # Attempts to remove any offline runners - giving time for old ones to expire
