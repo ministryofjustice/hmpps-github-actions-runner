@@ -45,6 +45,7 @@ runs:
         if response.status_code == 200:
             print("Successfully called GET /orgs/{github_org}/actions/runners runners endpoint")
             data = response.json()
+            print(data)
             # Process the data as needed
         else:
             print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
