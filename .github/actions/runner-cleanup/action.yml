@@ -49,9 +49,9 @@ runs:
               ]
 
               qty_runners=len(filtered_runners)
-              print(f'Found {qty_runners} runners')
+              print(f'Found {qty_runners} runners with label "hmpps-github-actions-runner".')
 
-              print(f'Attempt {retry_count}/10')
+              print(f'Attempt {retry_count}/10 ...')
               for runner in filtered_runners:
                 if runner['status'] == 'offline':
                   print(f'Found runner {runner['name']} with status {runner['status']}')
@@ -76,3 +76,4 @@ runs:
     env:
       github_org: ${{ inputs.github_org }}
       gh_auth_token: ${{ inputs.gh_auth_token }}
+      PYTHONUNBUFFERED: "1"
