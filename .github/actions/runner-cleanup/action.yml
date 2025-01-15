@@ -21,9 +21,6 @@ runs:
     shell: python {0} 
     id: cleanup-runners
     run: |
-      from github import Auth
-      from github import Github
-      from github import GithubException
       import requests
       import os
       from time import sleep
@@ -33,39 +30,47 @@ runs:
         github_org = os.getenv('github_org')
         auth_token = os.getenv('gh_auth_token')
         auth = Auth.Token(auth_token)
-        print(f'Repo name is: {github_org}')
-        g = Github(auth=auth)
-        # Calling unsupported PyGithub API endpoint
-        url = f"https://api.github.com/orgs/{github_org}/actions/runners"
+        qty_runners=retry_count=0
         headers = {
-            "Authorization": f"Bearer {auth_token}",
-            "Accept": "application/vnd.github+json"
+          "Authorization": f"Bearer {auth_token}",
+          "Accept": "application/vnd.github+json"
         }
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            print("Successfully called GET /orgs/{github_org}/actions/runners runners endpoint")
-            data = response.json()
-            print(data)
-            # Process the data as needed
-        else:
-            print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
+        while qty_runners!=expected_number_of_runners and retry_count < 10:
+          try:
+            # Calling unsupported PyGithub API endpoint
+            url = f"https://api.github.com/orgs/{github_org}/actions/runners"
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+              print("Successfully called GET /orgs/{github_org}/actions/runners runners endpoint")
+              data = response.json()
 
-        # repo = g.get_repo(github_org)
-        # offline_deleted=False
-        # qty_runners=retry_count=0
-        # while qty_runners!=expected_number_of_runners and retry_count < 10:
-        #   try:
-        #     runners = repo.get_self_hosted_runners() 
-        #     qty_runners=runners.totalCount
-        #     print(f'Attempt to clean up offline runners: {retry_count} - found {qty_runners} runners')
-        #     for each_runner in runners:
-        #       print(f'Checking runner {each_runner.name} with status {each_runner.status}')
-        #       if each_runner.status == 'offline':
-        #         success=repo.remove_self_hosted_runner(each_runner.id)
-        #   except:
-        #     print(f'Failed because {GithubException.message}')
-        #   retry_count+=1
-        #   sleep(10)
+              # Filter runners with the label 'hmpps-github-actions-runner'
+              filtered_runners = [
+                  runner for runner in data['runners']
+                  if any(label['name'] == 'hmpps-github-actions-runner' for label in runner['labels'])
+              ]
+
+              qty_runners=len(filtered_runners)
+
+              print(f'Attempt to clean up offline runners: {retry_count} - found {qty_runners} runners')
+              for runner in filtered_runners:
+                print(f'Checking runner {runner.name} with status {runner.status}')
+                if runner.status == 'offline':
+                  # Calling unsupported PyGithub API endpoint
+                  url = f"https://api.github.com/orgs/{github_org}/actions/runners/{runner.id}"
+                  response = requests.delete(url, headers=headers)
+                  if response.status_code == 200:
+                    print(f"Successfully deleted offline runner with ID {runner.id}.")
+                  else:
+                    print(f"Failed to delete offline runner with ID {runner.id}.")
+
+            else:
+                print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
+
+          except Exception as e:
+            print(f'Failed because {e}')
+          retry_count+=1
+          sleep(10)
       if __name__ == '__main__':
         main()
     
