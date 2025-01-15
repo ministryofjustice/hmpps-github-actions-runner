@@ -62,14 +62,14 @@ runs:
                     print(f"Successfully deleted offline runner with ID {runner['id']}.")
                   else:
                     print(f"Failed to delete offline runner with ID {runner['id']}.")
-
+                retry_count+=1
+                sleep(10)
             else:
                 print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
 
           except Exception as e:
             print(f'Failed because {e}')
-          retry_count+=1
-          sleep(10)
+
       if __name__ == '__main__':
         main()
     
