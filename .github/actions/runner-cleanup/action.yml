@@ -64,9 +64,9 @@ runs:
                 response = requests.delete(url, headers=headers)
                 print(response.status_code)
                 if response.status_code == 204:
-                  print(f"Successfully deleted offline runner with ID {runner['id']}.")
+                  print(f"Successfully deleted offline runner {runner['name']}.")
                 else:
-                  print(f"Failed to delete offline runner with ID {runner['id']}.")
+                  print(f"Failed to delete offline runner {runner['name']}.")
             else:
                 print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
           
@@ -74,8 +74,9 @@ runs:
             print(f'Failed because {e}')
           
           retry_count+=1
-          print(f'Sleeping for 10 seconds... and then checking again.')
-          sleep(10)
+          sleep_time=20
+          print(f'Sleeping for {sleep_time} seconds... and then checking again.')
+          sleep(sleep_time)
 
       if __name__ == '__main__':
         main()
