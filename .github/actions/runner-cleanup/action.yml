@@ -34,6 +34,7 @@ runs:
           "Accept": "application/vnd.github+json"
         }
         while retry_count < 10:
+          print(f'Attempt {retry_count+1}/10 ...')
           try:
             # Calling unsupported PyGithub API endpoint
             url = f"https://api.github.com/orgs/{github_org}/actions/runners"
@@ -56,24 +57,25 @@ runs:
               qty_runners=len(offline_runners)
               print(f'Found {qty_runners} offline runners with label "hmpps-github-actions-runner".')
 
-              print(f'Attempt {retry_count+1}/10 ...')
               for runner in offline_runners:
                 print(f'Trying to delete runner {runner['name']}...')
                 # Calling unsupported PyGithub API endpoint
                 url = f"https://api.github.com/orgs/{github_org}/actions/runners/{runner['id']}"
                 response = requests.delete(url, headers=headers)
                 print(response.status_code)
-                if response.status_code == 200:
+                if response.status_code == 204:
                   print(f"Successfully deleted offline runner with ID {runner['id']}.")
                 else:
                   print(f"Failed to delete offline runner with ID {runner['id']}.")
-                retry_count+=1
-                sleep(10)
             else:
                 print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
-
+          
           except Exception as e:
             print(f'Failed because {e}')
+          
+          retry_count+=1
+          print(f'Sleeping for 10 seconds... and then checking again.')
+          sleep(10)
 
       if __name__ == '__main__':
         main()
