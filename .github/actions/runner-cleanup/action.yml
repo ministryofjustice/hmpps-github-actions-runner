@@ -26,15 +26,14 @@ runs:
       from time import sleep
       # Attempts to remove any offline runners - giving time for old ones to expire
       def main():
-        expected_number_of_runners = os.getenv('qty_runners',1)
         github_org = os.getenv('github_org')
         auth_token = os.getenv('gh_auth_token')
-        qty_runners=retry_count=0
+        retry_count=0
         headers = {
           "Authorization": f"Bearer {auth_token}",
           "Accept": "application/vnd.github+json"
         }
-        while qty_runners!=expected_number_of_runners and retry_count < 10:
+        while retry_count < 10:
           try:
             # Calling unsupported PyGithub API endpoint
             url = f"https://api.github.com/orgs/{github_org}/actions/runners"
@@ -50,11 +49,12 @@ runs:
               ]
 
               qty_runners=len(filtered_runners)
+              print(f'Found {qty_runners} runners')
 
-              print(f'Attempt to clean up offline runners: {retry_count} - found {qty_runners} runners')
+              print(f'Attempt {retry_count}/10')
               for runner in filtered_runners:
-                print(f'Checking runner {runner['name']} with status {runner['status']}')
                 if runner['status'] == 'offline':
+                  print(f'Found runner {runner['name']} with status {runner['status']}')
                   # Calling unsupported PyGithub API endpoint
                   url = f"https://api.github.com/orgs/{github_org}/actions/runners/{runner['id']}"
                   response = requests.delete(url, headers=headers)
