@@ -53,15 +53,15 @@ runs:
 
               print(f'Attempt to clean up offline runners: {retry_count} - found {qty_runners} runners')
               for runner in filtered_runners:
-                print(f'Checking runner {runner.name} with status {runner.status}')
-                if runner.status == 'offline':
+                print(f'Checking runner {runner['name']} with status {runner['status']}')
+                if runner['status'] == 'offline':
                   # Calling unsupported PyGithub API endpoint
-                  url = f"https://api.github.com/orgs/{github_org}/actions/runners/{runner.id}"
+                  url = f"https://api.github.com/orgs/{github_org}/actions/runners/{runner['id']}"
                   response = requests.delete(url, headers=headers)
                   if response.status_code == 200:
-                    print(f"Successfully deleted offline runner with ID {runner.id}.")
+                    print(f"Successfully deleted offline runner with ID {runner['id']}.")
                   else:
-                    print(f"Failed to delete offline runner with ID {runner.id}.")
+                    print(f"Failed to delete offline runner with ID {runner['id']}.")
 
             else:
                 print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
