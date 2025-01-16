@@ -6,8 +6,11 @@ inputs:
   qty_runners:
     description: 'Number of expected runners'
     default: '1'
-  github_repository:
-    description: 'The repository in which the runners are deployed'
+  github_org:
+    description: 'The github org in which the runners are deployed'
+  runner_label:
+    description: The labels for the runners
+    required: true
     
 runs:
   using: "composite"
@@ -21,37 +24,69 @@ runs:
     shell: python {0} 
     id: cleanup-runners
     run: |
-      from github import Auth
-      from github import Github
-      from github import GithubException
+      import requests
       import os
       from time import sleep
       # Attempts to remove any offline runners - giving time for old ones to expire
       def main():
-        expected_number_of_runners=os.getenv('qty_runners',1)
-        github_repository=os.getenv('github_repository')
-        auth = Auth.Token(os.getenv('gh_auth_token'))
-        print(f'Repo name is: {github_repository}')
-        g = Github(auth=auth)
-        repo = g.get_repo(github_repository)
-        offline_deleted=False
-        qty_runners=retry_count=0
-        while qty_runners!=expected_number_of_runners and retry_count < 10:
+        github_org = os.getenv('github_org')
+        auth_token = os.getenv('gh_auth_token')
+        runner_label = os.getenv('runner_label')
+        retry_count=0
+        headers = {
+          "Authorization": f"Bearer {auth_token}",
+          "Accept": "application/vnd.github+json"
+        }
+        while retry_count < 10:
+          print(f'Attempt {retry_count+1}/10 ...')
           try:
-            runners = repo.get_self_hosted_runners() 
-            qty_runners=runners.totalCount
-            print(f'Attempt to clean up offline runners: {retry_count} - found {qty_runners} runners')
-            for each_runner in runners:
-              print(f'Checking runner {each_runner.name} with status {each_runner.status}')
-              if each_runner.status == 'offline':
-                success=repo.remove_self_hosted_runner(each_runner.id)
-          except:
-            print(f'Failed because {GithubException.message}')
+            # Calling unsupported PyGithub API endpoint
+            url = f"https://api.github.com/orgs/{github_org}/actions/runners"
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+              print("Successfully called GET /orgs/{github_org}/actions/runners runners endpoint")
+              data = response.json()
+
+              # Filter runners with the runner_label
+              filtered_runners = [
+                  runner for runner in data['runners']
+                  if any(label['name'] == runner_label for label in runner['labels'])
+              ]
+
+              offline_runners = [
+                  runner for runner in filtered_runners
+                  if runner['status'] == 'offline'
+              ]
+
+              qty_runners=len(offline_runners)
+              print(f'Found {qty_runners} offline runners with label "{runner_label}".')
+
+              for runner in offline_runners:
+                print(f'Trying to delete runner {runner['name']}...')
+                # Calling unsupported PyGithub API endpoint
+                url = f"https://api.github.com/orgs/{github_org}/actions/runners/{runner['id']}"
+                response = requests.delete(url, headers=headers)
+                print(response.status_code)
+                if response.status_code == 204:
+                  print(f"Successfully deleted offline runner {runner['name']}.")
+                else:
+                  print(f"Failed to delete offline runner {runner['name']}.")
+            else:
+                print(f"Failed to call GET /orgs/{github_org}/actions/runners endpoint: {response.status_code} - {response.text}")
+          
+          except Exception as e:
+            print(f'Failed because {e}')
+          
           retry_count+=1
-          sleep(10)
+          sleep_time=20
+          print(f'Sleeping for {sleep_time} seconds... and then checking again.')
+          sleep(sleep_time)
+
       if __name__ == '__main__':
         main()
     
     env:
-      github_repository: ${{ inputs.github_repository }}
+      github_org: ${{ inputs.github_org }}
       gh_auth_token: ${{ inputs.gh_auth_token }}
+      runner_label: ${{ inputs.runner_label }}
+      PYTHONUNBUFFERED: "1"

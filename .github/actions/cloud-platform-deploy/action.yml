@@ -26,11 +26,14 @@ inputs:
   gh_auth_token:
     description: Auth token for Github
     required: true
-  github_repository:
-    description: The repository in which the runners are deployed
+  github_org:
+    description: The github org in which the runners are deployed
     required: true
-  runner_labels:
+  runner_label:
     description: The labels for the runners
+    required: true
+  runner_group:
+    description: The runner group for the runners
     required: true  
 
 runs:
@@ -72,6 +75,7 @@ runs:
           --values 'helm_deploy/${{ steps.env.outputs.values-file }}' \
           --wait \
           --set generic-service.env.GH_AUTH_TOKEN="${{ inputs.gh_auth_token }}" \
-          --set generic-service.env.RUNNER_LABELS="${{ inputs.runner_labels }}" \
-          --set generic-service.env.GITHUB_REPOSITORY="${{ inputs.github_repository }}" 
+          --set generic-service.env.RUNNER_LABEL="${{ inputs.runner_label }}" \
+          --set generic-service.env.RUNNER_GROUP="${{ inputs.runner_group }}" \
+          --set generic-service.env.GH_ORG="${{ inputs.github_org }}" 
           
