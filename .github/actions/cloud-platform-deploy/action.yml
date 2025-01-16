@@ -31,6 +31,9 @@ inputs:
     required: true
   runner_label:
     description: The labels for the runners
+    required: true
+  runner_group:
+    description: The runner group for the runners
     required: true  
 
 runs:
