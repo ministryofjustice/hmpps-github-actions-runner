@@ -22,4 +22,5 @@ It's deployed to Cloud Platforms, using Helm.
 ### Repo environment variables
 
 - GH_APP_ID - the corresponding AppId for the Github App
-- RUNNER_LABELS - the label by which the runner is invoked
+- RUNNER_LABEL - the label by which the runner is invoked
+- RUNNER_GROUP - the runner group to assign the new runners to.

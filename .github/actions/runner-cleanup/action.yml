@@ -8,6 +8,9 @@ inputs:
     default: '1'
   github_org:
     description: 'The github org in which the runners are deployed'
+  runner_label:
+    description: The labels for the runners
+    required: true
     
 runs:
   using: "composite"
@@ -28,6 +31,7 @@ runs:
       def main():
         github_org = os.getenv('github_org')
         auth_token = os.getenv('gh_auth_token')
+        runner_label = os.getenv('runner_label')
         retry_count=0
         headers = {
           "Authorization": f"Bearer {auth_token}",
@@ -43,10 +47,10 @@ runs:
               print("Successfully called GET /orgs/{github_org}/actions/runners runners endpoint")
               data = response.json()
 
-              # Filter runners with the label 'hmpps-github-actions-runner'
+              # Filter runners with the runner_label
               filtered_runners = [
                   runner for runner in data['runners']
-                  if any(label['name'] == 'hmpps-github-actions-runner' for label in runner['labels'])
+                  if any(label['name'] == runner_label for label in runner['labels'])
               ]
 
               offline_runners = [
@@ -55,7 +59,7 @@ runs:
               ]
 
               qty_runners=len(offline_runners)
-              print(f'Found {qty_runners} offline runners with label "hmpps-github-actions-runner".')
+              print(f'Found {qty_runners} offline runners with label "{runner_label}".')
 
               for runner in offline_runners:
                 print(f'Trying to delete runner {runner['name']}...')
@@ -84,4 +88,5 @@ runs:
     env:
       github_org: ${{ inputs.github_org }}
       gh_auth_token: ${{ inputs.gh_auth_token }}
+      runner_label: ${{ inputs.runner_label }}
       PYTHONUNBUFFERED: "1"

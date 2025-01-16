@@ -29,7 +29,7 @@ inputs:
   github_org:
     description: The github org in which the runners are deployed
     required: true
-  runner_labels:
+  runner_label:
     description: The labels for the runners
     required: true  
 
@@ -72,6 +72,7 @@ runs:
           --values 'helm_deploy/${{ steps.env.outputs.values-file }}' \
           --wait \
           --set generic-service.env.GH_AUTH_TOKEN="${{ inputs.gh_auth_token }}" \
-          --set generic-service.env.RUNNER_LABELS="${{ inputs.runner_labels }}" \
+          --set generic-service.env.RUNNER_LABEL="${{ inputs.runner_label }}" \
+          --set generic-service.env.RUNNER_GROUP="${{ inputs.runner_group }}" \
           --set generic-service.env.GH_ORG="${{ inputs.github_org }}" 
           

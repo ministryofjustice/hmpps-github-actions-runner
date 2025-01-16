@@ -8,7 +8,8 @@ EPHEMERAL="${EPHEMERAL:-"false"}"
 echo "Runner parameters:"
 echo "  GitHub org: ${GH_ORG}"
 echo "  Runner Name: $(hostname)"
-echo "  Runner Labels: ${RUNNER_LABELS}"
+echo "  Runner Labels: ${RUNNER_LABEL}"
+echo "  Runner group: ${RUNNER_GROUP}"
 
 echo "Obtaining registration token"
 getRegistrationToken=$(
@@ -49,8 +50,8 @@ bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
   --url "https://github.com/${GH_ORG}" \
   --token "${REPO_TOKEN}" \
   --name "$(hostname)" \
-  --labels "${RUNNER_LABELS}" \
-  --runnergroup "hmpps-runners-restricted"
+  --labels "${RUNNER_LABEL}" \
+  --runnergroup "${RUNNER_GROUP}"
 
 echo "Setting the 'ready' flag for Kubernetes liveness probe"
 touch /tmp/runner.ready
