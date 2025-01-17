@@ -1,9 +1,9 @@
 # hmpps-github-actions-runner
-This deploys a self-hosted Github Runner to the github organisation.
+This project builds and deploys self-hosted Github Runners to the MinistryOfJustice github organisation. It's deployed to Cloud Platforms, using Helm.
 
-Documentation about it is [here](https://tech-docs.hmpps.service.justice.gov.uk/sreinternaldocs) 
+For teams wishing to **use these runners in your own pipelines**, the documentation is [here](https://tech-docs.hmpps.service.justice.gov.uk/sre-internal-docs/).
 
-It's deployed to Cloud Platforms, using Helm.
+# Building and Deploying
 
 ## Secrets/variables required:
 
@@ -24,3 +24,14 @@ It's deployed to Cloud Platforms, using Helm.
 - GH_APP_ID - the corresponding AppId for the Github App
 - RUNNER_LABEL - the label by which the runner is invoked
 - RUNNER_GROUP - the runner group to assign the new runners to.
+
+Note: the runner group needs to be be configured manually prior to deployment. The runner group can be configured to limit access to the runners, e.g. so only selected repositories can use them.
+
+### Updating the Actions Runner version
+
+Github requires that the Github Actions Runners versions are kept up-to-date; if an old version is deployed, there is a good chance it will be unable to register because it's too old. Update the Dockerfile with the latest version if needed:
+
+```Dockerfile
+ACTIONS_RUNNER_VERSION="xxxx"
+```
+Use the latest version of the runner and SHA from the [Github Actions Runner releases page](https://github.com/actions/runner/releases) - the checksum will be the one corresponding to `actions-runner-linux-x64`
