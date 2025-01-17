@@ -29,10 +29,10 @@ Note: the runner group needs to be be configured manually prior to deployment. T
 
 ### Updating the Actions Runner version
 
-Github requires that the Github Actions Runners versions are kept up-to-date; if an old version is deployed, there is a good chance it will be unable to register because it's too old. 
+Github requires that the Github Actions Runners versions are kept up-to-date; if an old version is deployed, there is a good chance it will be unable to register because it's too old.
 
 ```
-    ACTIONS_RUNNER_VERSION="2.321.0" \
-    ACTIONS_RUNNER_PKG_SHA="ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"
+ACTIONS_RUNNER_VERSION="2.321.0" \
+ACTIONS_RUNNER_PKG_SHA="ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"
 ```
 Use the latest version of the runner and SHA from the [Github Actions Runner releases page](https://github.com/actions/runner/releases) - the checksum will be the one corresponding to `actions-runner-linux-x64`
