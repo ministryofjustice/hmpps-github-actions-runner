@@ -48,7 +48,8 @@ apt-get install --yes --no-install-recommends \
   "gcc" \
   "libsqlite3-dev" \
   "python3" \
-  "httpie"
+  "httpie" \
+  "gh"
  
 apt-get clean
 
