@@ -49,7 +49,8 @@ apt-get install --yes --no-install-recommends \
   "libsqlite3-dev" \
   "python3" \
   "httpie" \
-  "gh"
+  "gh"  \ 
+  "redis-server"
  
 apt-get clean
 
