@@ -12,8 +12,8 @@
       "managerFilePatterns": [
         "/Dockerfile/"
       ],
-      "matchStrings": [
-        "ENV ACTIONS_RUNNER_VERSION=(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      "matchStrings": [       
+        "ENV ACTIONS_RUNNER_VERSION=\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
       ],
       "datasourceTemplate": "github-releases",
       "packageNameTemplate": "actions/runner",
