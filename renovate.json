@@ -1,11 +1,17 @@
 {
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
-  "labels": ["dependencies", "github-actions"],
-  "regexManagers": [
+  "labels": [
+    "dependencies",
+    "github-actions"
+  ],
+  "customManagers": [
     {
-      "fileMatch": ["Dockerfile"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/Dockerfile/"
+      ],
       "matchStrings": [
         "ENV ACTIONS_RUNNER_VERSION=(?<currentValue>\\d+\\.\\d+\\.\\d+)"
       ],
