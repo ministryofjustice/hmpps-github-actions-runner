@@ -25,6 +25,7 @@ jobs:
       contents: read
       pull-requests: write
       deployments: write
+      packages: write
     name: Build
     uses: ./.github/workflows/build.yml
     with:
