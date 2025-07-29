@@ -45,6 +45,7 @@ jobs:
     permissions:
       contents: read
       deployments: write
+      pull-requests: write
     if : github.ref == 'refs/heads/main'
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
