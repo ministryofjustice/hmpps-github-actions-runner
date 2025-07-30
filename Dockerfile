@@ -16,10 +16,16 @@ ENV CONTAINER_USER="runner" \
 
 # Checked by renovate
 ENV ACTIONS_RUNNER_VERSION="2.327.1"
+ENV GIT_LFS_VERSION="3.2.0"
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 
+# Copy the build scripts and install playwright
+COPY --chmod=700 build/ /tmp/build/
+RUN /tmp/build/install_base.sh
+
 RUN <<EOF
+
 groupadd \
   --gid ${CONTAINER_GID} \
   --system \
@@ -35,25 +41,6 @@ mkdir --parents ${CONTAINER_HOME}
 
 chown --recursive ${CONTAINER_USER}:${CONTAINER_GROUP} ${CONTAINER_HOME}
 
-apt-get update
-
-apt-get install --yes --no-install-recommends \
-  "apt-transport-https" \
-  "ca-certificates" \
-  "curl" \
-  "git" \
-  "jq" \
-  "libicu-dev" \
-  "lsb-release" \
-  "gcc" \
-  "libsqlite3-dev" \
-  "python3" \
-  "httpie" \
-  "gh"
- 
-apt-get clean
-
-rm -rf /var/lib/apt/lists/*
 
 curl --location "https://github.com/actions/runner/releases/download/v${ACTIONS_RUNNER_VERSION}/actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz" \
   --output "actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz"

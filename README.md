@@ -35,3 +35,8 @@ Github requires that the Github Actions Runners versions are kept up-to-date; if
 ACTIONS_RUNNER_VERSION="xxxx"
 ```
 Use the latest version of the runner and SHA from the [Github Actions Runner releases page](https://github.com/actions/runner/releases) - the checksum will be the one corresponding to `actions-runner-linux-x64`
+
+Renovate keeps track of the latest release and will raise PRs to track the updates.
+
+#### References
+The build process is based on the [browser-testing-github-actions-runner](https://github.com/ministryofjustice/browser-testing-github-actions-runner) project.

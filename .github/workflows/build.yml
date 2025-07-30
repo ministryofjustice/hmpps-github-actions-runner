@@ -25,6 +25,11 @@ env:
 
 jobs:
   build-docker:
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+      packages: write
     name: Docker build
     runs-on: ubuntu-latest
     strategy:

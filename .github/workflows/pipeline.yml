@@ -21,6 +21,11 @@ on:
 
 jobs:
   build:
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+      packages: write
     name: Build
     uses: ./.github/workflows/build.yml
     with:
@@ -38,6 +43,10 @@ jobs:
 
   # Only need to deploy to production nowadays
   deploy_to_prod:
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
     if : github.ref == 'refs/heads/main'
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
