@@ -91,7 +91,7 @@ function install_playwright() {
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true
   npm install -g playwright
   npx playwright install-deps
-  # npm uninstall -g playwright
+  npm uninstall -g playwright
   npm cache clean --force
 }
 
