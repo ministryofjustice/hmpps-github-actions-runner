@@ -19,6 +19,19 @@
       "packageNameTemplate": "actions/runner",
       "versioningTemplate": "semver",
       "extractVersionTemplate": "^v(?<version>\\d+\\.\\d+\\.\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/Dockerfile/"
+      ],
+      "matchStrings": [       
+        "ENV GIT_LFS_VERSION=\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
+      ],
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "git-lfs/git-lfs",
+      "versioningTemplate": "semver",
+      "extractVersionTemplate": "^v(?<version>\\d+\\.\\d+\\.\\d+)$"
     }
   ]
 }
