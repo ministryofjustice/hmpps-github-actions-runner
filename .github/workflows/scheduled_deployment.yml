@@ -12,6 +12,7 @@ jobs:
       contents: read
       pull-requests: write
       deployments: write
+      packages: write
     name: Build
     uses: ./.github/workflows/build.yml
     with:
@@ -29,6 +30,7 @@ jobs:
       version: ${{ needs.build.outputs.version }}
     secrets: inherit
     permissions:
-      contents: write
+      contents: read
       deployments: write
+      pull-requests: write
 
