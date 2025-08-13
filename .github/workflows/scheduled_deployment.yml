@@ -25,9 +25,13 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     needs:
       - build
+    strategy:
+      matrix:
+        pod_number: [1, 2, 3, 4]
     with:
       environment: production
       version: ${{ needs.build.outputs.version }}
+      pod_number: ${{ matrix.pod_number }}
     secrets: inherit
     permissions:
       contents: read

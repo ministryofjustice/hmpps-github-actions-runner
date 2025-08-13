@@ -35,28 +35,21 @@ jobs:
       push: true
     secrets: inherit 
     
-  
-  # deploy_to_dev:
-  #   name: Deploy to dev
-  #   uses: ./.github/workflows/deploy.yml
-  #   needs: build
-  #   with:
-  #     environment: development
-  #     version: ${{ needs.build.outputs.version }}
-  #   secrets: inherit
-
-  # Only need to deploy to production nowadays
+  # Deploy the pods individually so they can use separate API keys
   deploy_to_prod:
-    permissions:
-      contents: read
-      deployments: write
-      pull-requests: write
-    if : github.ref == 'refs/heads/main'
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
     needs:
       - build-runner
+    strategy:
+      matrix:
+        pod_number: [1, 2]
     with:
       environment: production
       version: ${{ needs.build-runner.outputs.version }}
+      pod_number: ${{ matrix.pod_number }}
     secrets: inherit
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
