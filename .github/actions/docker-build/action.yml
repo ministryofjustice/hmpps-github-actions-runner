@@ -4,6 +4,9 @@ description: Build, and optionally push, a Docker image
 inputs:
   project:
     description: Project name
+  dockerfile:
+    description: Dockerfile path
+    default: Dockerfile
   push:
     description: Whether to push images to the registry
     default: 'false'
@@ -29,6 +32,7 @@ runs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: .
+        file: ${{ inputs.dockerfile}}
         push: ${{ inputs.push }}
         provenance: false
         tags: |
