@@ -36,18 +36,30 @@ jobs:
     secrets: inherit 
     
   # Deploy the pods individually so they can use separate API keys
-  deploy_to_prod:
+  deploy_to_prod_pod_1:
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
     needs:
       - build-runner
-    strategy:
-      matrix:
-        pod_number: [1, 2]
     with:
       environment: production
       version: ${{ needs.build-runner.outputs.version }}
-      pod_number: ${{ matrix.pod_number }}
+      pod_number: 1
+    secrets: inherit
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+  deploy_to_prod_pod_2:
+    name: Deploy to prod
+    uses: ./.github/workflows/deploy.yml
+    needs:
+      - build-runner
+      - deploy_to_prod_pod_1
+    with:
+      environment: production
+      version: ${{ needs.build-runner.outputs.version }}
+      pod_number: 2
     secrets: inherit
     permissions:
       contents: read
