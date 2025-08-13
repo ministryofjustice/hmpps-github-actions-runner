@@ -20,17 +20,6 @@ on:
         required: true      
 
 jobs:
-  build-base:
-    permissions:
-      contents: read
-      pull-requests: write
-      deployments: write
-      packages: write
-    name: Build
-    uses: ./.github/workflows/build-base.yml
-    with:
-      push: true
-    secrets: inherit
   build-runner:
     permissions:
       contents: read
