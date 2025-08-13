@@ -4,7 +4,7 @@ generic-service:
   nameOverride: hmpps-github-actions-runner-pod-2
 
   env:
-    POD_NUMBER: 2
+    POD_NUMBER: '02'
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-sre-alerts
