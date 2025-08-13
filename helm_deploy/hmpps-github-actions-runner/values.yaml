@@ -2,7 +2,7 @@
 generic-service:
   nameOverride: hmpps-github-actions-runner
 
-  replicaCount: 4 # enough to run OWASP scans (hopefully)
+  replicaCount: 2 # enough to run OWASP scans (hopefully)
 
   image:
     repository: ghcr.io/ministryofjustice/hmpps-github-actions-runner
@@ -44,12 +44,12 @@ generic-service:
     - secretRef:
         name: hmpps-github-actions-runner
 
-  args:
-    - |
-      ORDINAL=$((0x$(echo $POD_NAME | sha1sum | head -c 2) % 4))
-      API_KEY_VAR="NVD_API_KEY_${ORDINAL}"
-      export NVD_API_KEY="${!API_KEY_VAR}"
-      exec /usr/local/bin/entrypoint.sh
+  # args:
+  #   - |
+  #     ORDINAL=$((0x$(echo $POD_NAME | sha1sum | head -c 2) % 4))
+  #     API_KEY_VAR="NVD_API_KEY_${ORDINAL}"
+  #     export NVD_API_KEY="${!API_KEY_VAR}"
+  #     exec /usr/local/bin/entrypoint.sh
 
 generic-prometheus-alerts:
   targetApplication: hmpps-github-actions-runner

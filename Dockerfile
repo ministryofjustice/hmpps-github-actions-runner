@@ -16,8 +16,13 @@ ENV CONTAINER_USER="runner" \
 
 # Checked by renovate
 ENV ACTIONS_RUNNER_VERSION="2.327.1"
+ENV GIT_LFS_VERSION="3.7.0"
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
+
+# Copy the build scripts and install playwright
+COPY --chmod=700 build/ /tmp/build/
+RUN /tmp/build/install_base.sh
 
 RUN <<EOF
 
