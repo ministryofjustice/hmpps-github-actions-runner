@@ -116,6 +116,14 @@ function install_powershell() {
   ln -s /opt/powershell/pwsh /usr/bin/pwsh
 }
 
+function install_vulnz() {
+# install the latest version of the vulnz tool
+  mkdir -p /opt/vulnz/cache
+  curl -L -o /opt/vulnz/vulnz.jar https://github.com/jeremylong/open-vulnerability-cli/releases/download/v${VULNZ_VERSION}/vulnz-${VULNZ_VERSION}.jar
+  chmod -R a+xr /opt/vulnz
+  chmod -R a+w /opt/vulnz/cache
+}
+
 function install_tools() {
   local function_name
   # shellcheck source=/dev/null

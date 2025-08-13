@@ -2,6 +2,14 @@
 
 set -euo pipefail
 
+# echo "Setting up NVD vulnerability database mirror"
+# echo "File location: /opt/vulnz/vulnz.jar"
+# echo "NVD API KEY: "${NVD_API_KEY:0:3}...${NVD_API_KEY: -3}"
+# cd /opt/vulnz
+# ./vulnz.jar cve --cache --directory ./cache
+
+# echo "Database mirror setup complete - now starting the runner"
+
 ACTIONS_RUNNER_DIRECTORY="/actions-runner"
 EPHEMERAL="${EPHEMERAL:-"false"}"
 
