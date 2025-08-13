@@ -37,5 +37,3 @@ generic-service:
     - secretRef:
         name: hmpps-github-actions-runner
 
-generic-prometheus-alerts:
-  targetApplication: hmpps-github-actions-runner
