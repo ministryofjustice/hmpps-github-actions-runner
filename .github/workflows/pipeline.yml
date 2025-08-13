@@ -52,7 +52,6 @@ jobs:
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
     needs:
-      - build-base
       - build-runner
     with:
       environment: production
