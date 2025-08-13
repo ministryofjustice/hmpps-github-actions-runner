@@ -5,14 +5,16 @@ set -euo pipefail
 echo "Setting up NVD vulnerability database mirror"
 echo "File location: /opt/vulnz/vulnz.jar"
 
-echo "Pod number: ${POD_NUMBER}"
-# export key_var="NVD_API_KEY_${POD_NUMBER}"
-# export NVD_API_KEY="${!key_var}"
-# echo "NVD API KEY (NVD_API_KEY_${POD_NUMBER}): ${NVD_API_KEY:0:3}...${NVD_API_KEY: -3}"
+export pod=$(printf '%02d' ${POD_NUMBER})
+export key_var="NVD_API_KEY_${pod}"
+export NVD_API_KEY="${!key_var}"
+
+echo "NVD API KEY (NVD_API_KEY_${pod}): ${NVD_API_KEY:0:3}...${NVD_API_KEY: -3}"
+
 # cd /opt/vulnz
 # ./vulnz.jar cve --cache --directory ./cache
 
-# echo "Database mirror setup complete - now starting the runner"
+echo "Database mirror setup complete - now starting the runner"
 
 ACTIONS_RUNNER_DIRECTORY="/actions-runner"
 EPHEMERAL="${EPHEMERAL:-"false"}"
