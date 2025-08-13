@@ -48,7 +48,7 @@ jobs:
           echo "version=$version" | tee -a "$GITHUB_OUTPUT"
 
       - name: Update Dockerfile FROM org
-        run: sed -i.bak "s/FROM.*/FROM ghcr.io/ministryofjustice/hmpps-actions-runner-base:latest/" Dockerfile
+        run: sed -i.bak "s/FROM.*/FROM ghcr.io\/ministryofjustice\/hmpps-actions-runner-base:latest/" Dockerfile
 
       - name: GitHub app JWT and installation access token generation
         uses: jamestrousdale/github-app-jwt-token@0.1.4
