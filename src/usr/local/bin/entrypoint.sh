@@ -9,7 +9,7 @@ echo "Pod number: ${POD_NUMBER}"
 # export key_var="NVD_API_KEY_${POD_NUMBER}"
 # export NVD_API_KEY="${!key_var}"
 # echo "NVD API KEY (NVD_API_KEY_${POD_NUMBER}): ${NVD_API_KEY:0:3}...${NVD_API_KEY: -3}"
-cd /opt/vulnz
+# helm
 # ./vulnz.jar cve --cache --directory ./cache
 
 # echo "Database mirror setup complete - now starting the runner"
