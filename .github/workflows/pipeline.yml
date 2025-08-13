@@ -27,7 +27,7 @@ jobs:
       deployments: write
       packages: write
     name: Build
-    uses: ./.github/workflows/build-runner.yml
+    uses: ./.github/workflows/build.yml
     with:
       push: true
     secrets: inherit 
