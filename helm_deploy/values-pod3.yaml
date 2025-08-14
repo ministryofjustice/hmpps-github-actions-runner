@@ -6,3 +6,4 @@ generic-service:
 generic-prometheus-alerts:
   alertSeverity: hmpps-sre-alerts
   targetApplication: hmpps-github-actions-runner-pod-3
+
