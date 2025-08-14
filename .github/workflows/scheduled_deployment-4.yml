@@ -2,7 +2,7 @@ name: Scheduled deployment
 
 on:
   schedule:
-    - cron: "40 16,4 * * *" # Every 12 hours
+    - cron: "40 14,02 * * *"  # Every 12 hours - needs to be all done before OWASP scans start from 03:00
 
   workflow_dispatch:
 
