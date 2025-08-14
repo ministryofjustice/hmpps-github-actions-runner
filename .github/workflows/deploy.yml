@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy a runner pod
 
 on:
   workflow_call:
@@ -18,21 +18,28 @@ on:
 
   workflow_dispatch:
     inputs:
+      pod_number:
+        description: The pod number to deploy
+        type: choice
+        # The pod numbers are hardcoded in the helm chart, so we need to ensure they
+        required: true
+        options:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
       environment:
         description: Environment
         type: choice
         required: true
         options:
-          - development
           - production
+        default: production
       version:
         description: Image version
         type: string
         required: true
-      pod_number:
-        description: The pod number to deploy
-        type: number
-        required: true
+        default: 'latest'
 
 jobs:
   deploy:

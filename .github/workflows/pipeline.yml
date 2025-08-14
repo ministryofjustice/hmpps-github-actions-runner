@@ -8,21 +8,17 @@ on:
       - 'feat/**'
       - 'feature/**'
 
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: Environment
-        type: choice
-        required: true
-        options:
-          - development
-          - production
-      version:
-        description: Image version
-        type: string
-        required: true      
-
 jobs:
+  build-base:
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+      packages: write
+    name: Build
+    uses: ./.github/workflows/build-base.yml
+    secrets: inherit 
+
   build-runner:
     permissions:
       contents: read
@@ -30,7 +26,9 @@ jobs:
       deployments: write
       packages: write
     name: Build
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/build-runner.yml
+    needs:
+      - build-base
     with:
       push: true
     secrets: inherit 

@@ -5,14 +5,18 @@ on:
       - Dockerfile.base
       - .github/workflows/build-base.yml
     branches:
-      - main
       - develop
+      - "base/**"
+
+  workflow_call:
+
+  workflow_dispatch:
 
   schedule:
-    - cron:  '0 22 * * *'
+    - cron: "0 02 * * *" # Build every day at 2 AM
 
 jobs:
-  ubuntu_base_latest_deploy:
+  build-base:
     name: Build and push the base Docker image
     runs-on: ubuntu-latest
     steps:
