@@ -87,4 +87,3 @@ jobs:
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
           github_org: ${{ github.repository_owner }}
           runner_label: ${{ vars.RUNNER_LABEL }}
-      
