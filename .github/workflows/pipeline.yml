@@ -41,7 +41,7 @@ jobs:
       - build-runner
     with:
       environment: production
-      version: ${{ needs.build-runner.outputs.version }}
+      version: 'latest-prod'
       pod_number: 1
     secrets: inherit
     permissions:
