@@ -1,4 +1,4 @@
-name: Build
+name: Build the runner Docker image
 
 on:
   workflow_call:
@@ -24,7 +24,7 @@ env:
   ghcr_token: ${{ secrets.GHCR_TOKEN}}
 
 jobs:
-  build-docker:
+  build-runner:
     permissions:
       contents: read
       pull-requests: write
@@ -32,10 +32,6 @@ jobs:
       packages: write
     name: Docker build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        project:
-          - hmpps-github-actions-runner
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
@@ -61,7 +57,8 @@ jobs:
         uses: ./.github/actions/docker-build
         id: build
         with:
-          project: ${{ matrix.project }}
+          project: hmpps-github-actions-runner
           push: ${{ env.push }}
           version: ${{ steps.version.outputs.version }}
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
+

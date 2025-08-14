@@ -1,24 +1,12 @@
-name: Build -> Deploy pipeline
+name: Scheduled deployment
 
 on:
-  push:
-    branches:
-      - 'main'
-      - 'fix/**'
-      - 'feat/**'
-      - 'feature/**'
+  schedule:
+    - cron: "40 14,02 * * *"  # Every 12 hours - needs to be all done before OWASP scans start from 03:00
+
+  workflow_dispatch:
 
 jobs:
-  build-base:
-    permissions:
-      contents: read
-      pull-requests: write
-      deployments: write
-      packages: write
-    name: Build
-    uses: ./.github/workflows/build-base.yml
-    secrets: inherit 
-
   build-runner:
     permissions:
       contents: read
@@ -27,14 +15,12 @@ jobs:
       packages: write
     name: Build
     uses: ./.github/workflows/build-runner.yml
-    needs:
-      - build-base
     with:
       push: true
-    secrets: inherit 
-    
-  # Deploy the pods individually so they can use separate API keys
-  deploy_to_prod_pod_1:
+    secrets: inherit
+  
+  # Only need to deploy to production nowadays
+  deploy_to_prod:
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
     needs:
@@ -42,7 +28,7 @@ jobs:
     with:
       environment: production
       version: ${{ needs.build-runner.outputs.version }}
-      pod_number: 1
+      pod_number: 4
     secrets: inherit
     permissions:
       contents: read
