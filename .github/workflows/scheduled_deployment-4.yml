@@ -1,4 +1,4 @@
-name: Scheduled deployment - pod 4
+name: Scheduled deployment
 
 on:
   schedule:
@@ -7,13 +7,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  build-runner:
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+      packages: write
+    name: Build
+    uses: ./.github/workflows/build-runner.yml
+    with:
+      push: true
+    secrets: inherit
+  
   # Only need to deploy to production nowadays
   deploy_to_prod:
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
+    needs:
+      - build-runner
     with:
       environment: production
-      version: 'latest-prod'
+      version: ${{ needs.build-runner.outputs.version }}
       pod_number: 4
     secrets: inherit
     permissions:

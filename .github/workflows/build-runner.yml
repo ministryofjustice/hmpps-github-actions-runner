@@ -11,7 +11,7 @@ on:
         default: false
     outputs:
       version:
-        value: ${{ jobs.build-runner.outputs.version }}
+        value: ${{ jobs.build-docker.outputs.version }}
   workflow_dispatch:
     inputs:
       push:
@@ -32,8 +32,16 @@ jobs:
       packages: write
     name: Docker build
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set version
+        id: version
+        run: |
+          version=$(date '+%Y-%m-%d').${{ github.run_number }}.$(echo ${{ github.sha }} | cut -c1-7)
+          echo "version=$version" | tee -a "$GITHUB_OUTPUT"
 
       - name: Update Dockerfile FROM org
         run: sed -i.bak "s/FROM.*/FROM ghcr.io\/ministryofjustice\/hmpps-github-actions-runner-base:latest/" Dockerfile
@@ -51,6 +59,6 @@ jobs:
         with:
           project: hmpps-github-actions-runner
           push: ${{ env.push }}
-          version: 'latest-prod'
+          version: ${{ steps.version.outputs.version }}
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
 
