@@ -11,10 +11,6 @@ on:
         description: The image version to deploy
         type: string
         required: true
-      pod_number:
-        description: The pod number to deploy
-        type: string
-        required: true
 
   workflow_dispatch:
     inputs:
@@ -29,10 +25,6 @@ on:
         description: Image version
         type: string
         required: true
-      pod_number:
-        description: The pod number to deploy
-        type: number
-        required: true
 
 jobs:
   deploy:
@@ -41,6 +33,8 @@ jobs:
       pull-requests: write
       deployments: write
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
     environment:
       name: ${{ inputs.environment }}  
     steps:
@@ -62,7 +56,6 @@ jobs:
         with:
           environment: ${{ inputs.environment }}
           version: ${{ inputs.version }}
-          pod_number: ${{ inputs.pod_number }}
           api: https://${{ secrets.KUBE_CLUSTER }}
           cert: ${{ secrets.KUBE_CERT }}
           cluster: ${{ secrets.KUBE_CLUSTER }}
@@ -73,8 +66,7 @@ jobs:
           runner_label: ${{ vars.RUNNER_LABEL }}
           runner_group: ${{ vars.RUNNER_GROUP }}
 
-      - name: Remove offline runners # when the last pod has been deployed
-        if: inputs.pod_number == '4' 
+      - name: Remove offline runners
         uses: ./.github/actions/runner-cleanup
         with:
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}

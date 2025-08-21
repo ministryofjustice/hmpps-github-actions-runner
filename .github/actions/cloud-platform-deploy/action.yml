@@ -8,9 +8,6 @@ inputs:
   version:
     description: The version of the service to deploy
     required: true
-  pod_number:
-    description: The pod number to deploy
-    required: true
   api:
     description: The KUBE_ENV_API
     required: true
@@ -43,6 +40,13 @@ runs:
   using: composite
   steps:
     - uses: actions/checkout@v5
+
+    - name: Get environment details
+      uses: ./.github/actions/get-env-details
+      id: env
+      with:
+        environment: ${{ inputs.environment }}
+
     - name: Authenticate
       uses: ./.github/actions/cloud-platform-auth
       with:
@@ -68,11 +72,10 @@ runs:
           --set 'generic-service.image.tag=${{ inputs.version }}' \
           --set 'version=${{ inputs.version }}' \
           --timeout 10m \
-          --values 'helm_deploy/values-pod${{ inputs.pod_number }}' \
+          --values 'helm_deploy/${{ steps.env.outputs.values-file }}' \
           --wait \
           --set generic-service.env.GH_AUTH_TOKEN="${{ inputs.gh_auth_token }}" \
           --set generic-service.env.RUNNER_LABEL="${{ inputs.runner_label }}" \
           --set generic-service.env.RUNNER_GROUP="${{ inputs.runner_group }}" \
-          --set generic-service.env.GH_ORG="${{ inputs.github_org }}" \
-          --set generic-service.env.POD_NUMBER="${{ inputs.pod_number }}" 
+          --set generic-service.env.GH_ORG="${{ inputs.github_org }}" 
           
