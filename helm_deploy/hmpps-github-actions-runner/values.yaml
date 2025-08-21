@@ -35,7 +35,7 @@ generic-service:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
 
   env:
-    POD_NAME:
+    - name: POD_NAME
       valueFrom:
         fieldRef:
           fieldPath: metadata.name
