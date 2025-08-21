@@ -39,16 +39,13 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set version
         id: version
         run: |
           version=$(date '+%Y-%m-%d').${{ github.run_number }}.$(echo ${{ github.sha }} | cut -c1-7)
           echo "version=$version" | tee -a "$GITHUB_OUTPUT"
-
-      - name: Update Dockerfile FROM org
-        run: sed -i.bak "s/FROM.*/FROM ghcr.io\/ministryofjustice\/hmpps-actions-runner-base:latest/" Dockerfile
 
       - name: GitHub app JWT and installation access token generation
         uses: jamestrousdale/github-app-jwt-token@0.1.4

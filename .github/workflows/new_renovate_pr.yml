@@ -24,4 +24,3 @@ jobs:
         slack_channel: ${{ vars.NOTIFICATIONS_SLACK_CHANNEL }}
         slack_bot_token: ${{ secrets.HMPPS_SRE_SLACK_BOT_TOKEN }}
         pull_request_number:  ${{ steps.get_pr_details.outputs.number }}
-

@@ -8,17 +8,21 @@ on:
       - 'feat/**'
       - 'feature/**'
 
-jobs:
-  build-base:
-    permissions:
-      contents: read
-      pull-requests: write
-      deployments: write
-      packages: write
-    name: Build
-    uses: ./.github/workflows/build-base.yml
-    secrets: inherit 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment
+        type: choice
+        required: true
+        options:
+          - development
+          - production
+      version:
+        description: Image version
+        type: string
+        required: true      
 
+jobs:
   build-runner:
     permissions:
       contents: read
@@ -26,9 +30,7 @@ jobs:
       deployments: write
       packages: write
     name: Build
-    uses: ./.github/workflows/build-runner.yml
-    needs:
-      - build-base
+    uses: ./.github/workflows/build.yml
     with:
       push: true
     secrets: inherit 
@@ -48,4 +50,18 @@ jobs:
       contents: read
       deployments: write
       pull-requests: write
-
+  deploy_to_prod_pod_2:
+    name: Deploy to prod
+    uses: ./.github/workflows/deploy.yml
+    needs:
+      - build-runner
+      - deploy_to_prod_pod_1
+    with:
+      environment: production
+      version: ${{ needs.build-runner.outputs.version }}
+      pod_number: 2
+    secrets: inherit
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write

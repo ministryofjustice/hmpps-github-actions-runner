@@ -1,4 +1,4 @@
-name: Deploy a runner pod
+name: Deploy
 
 on:
   workflow_call:
@@ -18,28 +18,21 @@ on:
 
   workflow_dispatch:
     inputs:
-      pod_number:
-        description: The pod number to deploy
-        type: choice
-        # The pod numbers are hardcoded in the helm chart, so we need to ensure they
-        required: true
-        options:
-          - '1'
-          - '2'
-          - '3'
-          - '4'
       environment:
         description: Environment
         type: choice
         required: true
         options:
+          - development
           - production
-        default: production
       version:
         description: Image version
         type: string
         required: true
-        default: 'latest'
+      pod_number:
+        description: The pod number to deploy
+        type: number
+        required: true
 
 jobs:
   deploy:
@@ -87,4 +80,4 @@ jobs:
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
           github_org: ${{ github.repository_owner }}
           runner_label: ${{ vars.RUNNER_LABEL }}
-
+      

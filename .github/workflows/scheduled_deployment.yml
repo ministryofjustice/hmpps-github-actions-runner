@@ -2,19 +2,19 @@ name: Scheduled deployment
 
 on:
   schedule:
-    - cron: "10 01,13 * * *"  # Every 12 hours - needs to be all done before OWASP scans start from 03:00
+    - cron: "10 16,04 * * *" # Every 12 hours
 
   workflow_dispatch:
 
 jobs:
-  build-runner:
+  build:
     permissions:
       contents: read
       pull-requests: write
       deployments: write
       packages: write
     name: Build
-    uses: ./.github/workflows/build-runner.yml
+    uses: ./.github/workflows/build.yml
     with:
       push: true
     secrets: inherit
@@ -24,11 +24,14 @@ jobs:
     name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
     needs:
-      - build-runner
+      - build
+    strategy:
+      matrix:
+        pod_number: [1, 2, 3, 4]
     with:
       environment: production
-      version: ${{ needs.build-runner.outputs.version }}
-      pod_number: 1
+      version: ${{ needs.build.outputs.version }}
+      pod_number: ${{ matrix.pod_number }}
     secrets: inherit
     permissions:
       contents: read

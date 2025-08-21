@@ -1,23 +1,18 @@
-name: Build the base Docker image
+name: GitHub Actions Runner in Docker - Base
 on:
   push:
     paths:
       - Dockerfile.base
       - .github/workflows/build-base.yml
     branches:
+      - main
       - develop
-      - "base/**"
-
-  workflow_call:
-
-  workflow_dispatch:
 
   schedule:
-    - cron: "20 00 * * *" # Build every day at 00:20 ready for the scheduled deployments
+    - cron:  '0 22 * * *'
 
 jobs:
-  build-base:
-    name: Build and push the base Docker image
+  ubuntu_base_latest_deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Copy Repo Files
@@ -45,4 +40,3 @@ jobs:
           dockerfile: Dockerfile.base
           version: ${{ steps.version.outputs.version }}
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
-
