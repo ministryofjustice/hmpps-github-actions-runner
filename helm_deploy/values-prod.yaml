@@ -1,0 +1,5 @@
+---
+# Per environment values which override defaults in hmpps-github-actions-runner/values.yaml
+
+generic-prometheus-alerts:
+  alertSeverity: hmpps-sre-alerts
