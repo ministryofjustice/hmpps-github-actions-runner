@@ -68,7 +68,7 @@ runs:
           --set 'generic-service.image.tag=${{ inputs.version }}' \
           --set 'version=${{ inputs.version }}' \
           --timeout 10m \
-          --values 'helm_deploy/values-pod${{ inputs.pod_number }}.yaml' \
+          --values 'helm_deploy/values-pod${{ inputs.pod_number }}' \
           --wait \
           --set generic-service.env.GH_AUTH_TOKEN="${{ inputs.gh_auth_token }}" \
           --set generic-service.env.RUNNER_LABEL="${{ inputs.runner_label }}" \
