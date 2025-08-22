@@ -50,6 +50,8 @@ jobs:
 
   delete-old-base-images:
     runs-on: ubuntu-latest
+    needs:
+      ubuntu-base-build
     steps:
       - name: Delete old gchr.io images for runner base
         uses: actions/delete-package-versions@v5

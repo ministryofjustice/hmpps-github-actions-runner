@@ -36,3 +36,4 @@ jobs:
       environment: 'production'
       version: ${{ needs.build-runner.outputs.version }}
     secrets: inherit
+

@@ -51,6 +51,8 @@ jobs:
 
   delete-old-runner-images:
     runs-on: ubuntu-latest
+    needs:
+      build-runner
     steps:
       - name: Delete old gchr.io images for runner
         uses: actions/delete-package-versions@v5
