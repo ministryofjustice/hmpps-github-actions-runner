@@ -2,8 +2,15 @@ name: Deploy the runner cluster
 
 on:
   workflow_call:
-
-  workflow_dispatch:
+    inputs:      
+      environment:
+        description: The name of the environment to deploy to (dev/prod)
+        type: string
+        required: true
+      version:
+        description: The image version to deploy
+        type: string
+        required: true
 
 jobs:
   deploy-to-production:
@@ -24,8 +31,8 @@ jobs:
       - name: Deploy to Cloud Platforms - prod
         uses: ./.github/actions/cloud-platform-deploy
         with:
-          environment: 'prod'
-          version: 'latest-prod'
+          environment: ${{ inputs.environment }}
+          version: ${{ inputs.version }}
           api: https://${{ secrets.KUBE_CLUSTER }}
           cert: ${{ secrets.KUBE_CERT }}
           cluster: ${{ secrets.KUBE_CLUSTER }}
@@ -42,4 +49,3 @@ jobs:
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
           github_org: ${{ github.repository_owner }}
           runner_label: ${{ vars.RUNNER_LABEL }}
-      

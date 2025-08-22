@@ -1,4 +1,4 @@
-name: Build -> Deploy pipeline
+name: Build -> Deploy runner pipeline
 
 on:
   push:
@@ -6,7 +6,10 @@ on:
       - 'main'
       - 'fix/**'
 
-  workflow_dispatch:
+  schedule:
+    - cron: "10 16,04 * * *" # Every 12 hours
+
+  workflow_call:
 
 jobs:
   build-runner:
@@ -30,6 +33,9 @@ jobs:
       pull-requests: write
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/deploy.yml
+    with:
+      environment: 'production'
+      version: 'latest-prod'
     needs:
       - build-runner
     secrets: inherit

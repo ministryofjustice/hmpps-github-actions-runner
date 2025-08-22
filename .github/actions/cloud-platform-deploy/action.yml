@@ -78,4 +78,3 @@ runs:
           --set generic-service.env.RUNNER_LABEL="${{ inputs.runner_label }}" \
           --set generic-service.env.RUNNER_GROUP="${{ inputs.runner_group }}" \
           --set generic-service.env.GH_ORG="${{ inputs.github_org }}" 
-          
