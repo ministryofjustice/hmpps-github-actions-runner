@@ -1,49 +1,19 @@
-name: Deploy
+name: Deploy the runner cluster
 
 on:
   workflow_call:
-    inputs:      
-      environment:
-        description: The name of the environment to deploy to (dev/prod)
-        type: string
-        required: true
-      version:
-        description: The image version to deploy
-        type: string
-        required: true
 
   workflow_dispatch:
-    inputs:
-      environment:
-        description: Environment
-        type: choice
-        required: true
-        options:
-          - development
-          - production
-      version:
-        description: Image version
-        type: string
-        required: true
 
 jobs:
-  deploy:
+  deploy-to-production:
     permissions:
       contents: read
       pull-requests: write
       deployments: write
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    environment:
-      name: ${{ inputs.environment }}  
     steps:
       - uses: actions/checkout@v5
-      - uses: ./.github/actions/get-env-details
-        id: env
-        with:
-          environment: ${{ inputs.environment }}
-
       - name: GitHub app JWT and installation access token generation
         uses: jamestrousdale/github-app-jwt-token@0.1.4
         id: generate-github-app-tokens
@@ -51,11 +21,11 @@ jobs:
           app-id: ${{ vars.GH_APP_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
-      - name: Deploy to Platform
+      - name: Deploy to Cloud Platforms - prod
         uses: ./.github/actions/cloud-platform-deploy
         with:
-          environment: ${{ inputs.environment }}
-          version: ${{ inputs.version }}
+          environment: 'prod'
+          version: 'latest-prod'
           api: https://${{ secrets.KUBE_CLUSTER }}
           cert: ${{ secrets.KUBE_CERT }}
           cluster: ${{ secrets.KUBE_CLUSTER }}
