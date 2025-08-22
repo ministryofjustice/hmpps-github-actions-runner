@@ -1,3 +1,5 @@
+name: Remove offline runners
+
 on:
   workflow_call:
 
@@ -5,6 +7,8 @@ jobs:
   remove-offline-runners:
     runs-on: ubuntu-latest
     name: Remove offline runners
+    permissions:
+      contents: read
     steps:
     - name: GitHub app JWT and installation access token generation
       uses: jamestrousdale/github-app-jwt-token@0.1.4

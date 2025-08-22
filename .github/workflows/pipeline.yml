@@ -39,6 +39,8 @@ jobs:
 
   runner-cleanup:
     name: remove the remaining runners
+    permissions:
+      contents: read
     needs: deploy-to-prod
     uses: ./.github/workflows/runner-cleanup.yml
 

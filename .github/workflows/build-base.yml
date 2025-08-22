@@ -1,4 +1,5 @@
 name: Build and push the base image
+
 on:
   push:
     paths:
