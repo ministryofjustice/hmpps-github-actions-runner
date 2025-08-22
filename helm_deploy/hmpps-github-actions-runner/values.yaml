@@ -34,22 +34,9 @@ generic-service:
   #   [name of kubernetes secret]:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
 
-  env:
-    - name: POD_NAME
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.name
-
   envFrom:
     - secretRef:
         name: hmpps-github-actions-runner
-
-  # args:
-  #   - |
-  #     ORDINAL=$((0x$(echo $POD_NAME | sha1sum | head -c 2) % 4))
-  #     API_KEY_VAR="NVD_API_KEY_${ORDINAL}"
-  #     export NVD_API_KEY="${!API_KEY_VAR}"
-  #     exec /usr/local/bin/entrypoint.sh
 
 generic-prometheus-alerts:
   targetApplication: hmpps-github-actions-runner
