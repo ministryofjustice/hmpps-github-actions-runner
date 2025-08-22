@@ -116,13 +116,6 @@
       "packages": [
         "yq"
       ]
-    },
-    {
-      "category": "vulnz",
-      "source": "script",
-      "packages": [
-        "vulnz"
-      ]
     }
   ]
 }

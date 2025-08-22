@@ -1,51 +1,41 @@
-name: Build -> Deploy pipeline
+name: Build -> Deploy runner pipeline
 
 on:
   push:
     branches:
       - 'main'
       - 'fix/**'
-      - 'feat/**'
-      - 'feature/**'
+
+  schedule:
+    - cron: "10 16,04 * * *" # Every 12 hours
+
+  workflow_call:
 
 jobs:
-  build-base:
-    permissions:
-      contents: read
-      pull-requests: write
-      deployments: write
-      packages: write
-    name: Build
-    uses: ./.github/workflows/build-base.yml
-    secrets: inherit 
-
   build-runner:
+    name: Build the latest Github Actions Runner image
     permissions:
       contents: read
       pull-requests: write
       deployments: write
       packages: write
-    name: Build
     uses: ./.github/workflows/build-runner.yml
-    needs:
-      - build-base
     with:
       push: true
     secrets: inherit 
     
-  # Deploy the pods individually so they can use separate API keys
-  deploy_to_prod_pod_1:
+  # Only need to deploy to production nowadays
+  deploy-to-prod:
     name: Deploy to prod
-    uses: ./.github/workflows/deploy.yml
-    needs:
-      - build-runner
-    with:
-      environment: production
-      version: 'latest-prod'
-      pod_number: 1
-    secrets: inherit
     permissions:
       contents: read
       deployments: write
       pull-requests: write
-
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: 'production'
+      version: 'latest-prod'
+    needs:
+      - build-runner
+    secrets: inherit

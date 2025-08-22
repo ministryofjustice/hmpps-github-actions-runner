@@ -19,10 +19,6 @@ For teams wishing to **use these runners in your own pipelines**, the documentat
 - KUBE_SERVER - the AWS eks instance on which the Kubernetes cluster is running (API endpoint)
 - KUBE_TOKEN - a token to gain access to the Kubernetes cluster. It's the long one.
 
-### Bonus round - NVD_API_KEYS
-
-- NVD_API_KEY_01 to 04: these are keys associated with justice.gov.uk email addresses to enable 
-
 ### Repo environment variables
 
 - GH_APP_ID - the corresponding AppId for the Github App

@@ -1,23 +1,26 @@
-name: Build the base Docker image
+name: Build and push the base image
 on:
   push:
     paths:
       - Dockerfile.base
       - .github/workflows/build-base.yml
     branches:
+      - main
       - develop
-      - "base/**"
+      - 'feat/**'
+      - 'feature/**'
 
+# we want to be able to trigger this manually
   workflow_call:
 
   workflow_dispatch:
 
   schedule:
-    - cron: "15 00 * * *" # Build every day at 00:15 ready for the scheduled deployments
+    - cron:  '0 22 * * *'
 
 jobs:
-  build-base:
-    name: Build and push the base Docker image
+  ubuntu-base-build:
+    name: Build and configure the latest base image
     runs-on: ubuntu-latest
     steps:
       - name: Copy Repo Files
@@ -36,7 +39,7 @@ jobs:
           app-id: ${{ vars.GH_APP_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
         
-      - name: Build Docker images
+      - name: Build the Docker image
         uses: ./.github/actions/docker-build
         id: build
         with:
@@ -45,4 +48,3 @@ jobs:
           dockerfile: Dockerfile.base
           version: ${{ steps.version.outputs.version }}
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
-
