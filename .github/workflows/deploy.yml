@@ -20,6 +20,8 @@ jobs:
       pull-requests: write
       deployments: write
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v5
       - name: GitHub app JWT and installation access token generation
