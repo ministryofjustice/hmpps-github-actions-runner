@@ -43,4 +43,5 @@ jobs:
       contents: read
     needs: deploy-to-prod
     uses: ./.github/workflows/runner-cleanup.yml
+    secrets: inherit 
 
