@@ -47,7 +47,7 @@ runs:
       with:
         environment: ${{ inputs.environment }}
 
-    - name: Authenticate
+    - name: Authenticate to Cloud Platforms
       uses: ./.github/actions/cloud-platform-auth
       with:
         api: ${{ inputs.api }}

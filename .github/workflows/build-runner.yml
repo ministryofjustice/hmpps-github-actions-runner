@@ -30,8 +30,8 @@ jobs:
     name: Docker build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Update Dockerfile FROM org
+      - uses: actions/checkout@v5
+      - name: Update Dockerfile FROM to use base image
         run: sed -i.bak "s/FROM.*/FROM ghcr.io\/ministryofjustice\/hmpps-github-actions-runner-base:latest/" Dockerfile
 
       - name: GitHub app JWT and installation access token generation

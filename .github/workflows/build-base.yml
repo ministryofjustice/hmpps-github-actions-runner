@@ -19,7 +19,8 @@ on:
     - cron:  '0 22 * * *'
 
 jobs:
-  ubuntu_base_latest_deploy:
+  ubuntu-base-build:
+    name: Build and configure the latest base image
     runs-on: ubuntu-latest
     steps:
       - name: Copy Repo Files
@@ -38,7 +39,7 @@ jobs:
           app-id: ${{ vars.GH_APP_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
         
-      - name: Build Docker images
+      - name: Build the Docker image
         uses: ./.github/actions/docker-build
         id: build
         with:
