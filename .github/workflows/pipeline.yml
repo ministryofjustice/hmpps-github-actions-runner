@@ -31,9 +31,8 @@ jobs:
       pull-requests: write
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/deploy.yml
+    needs: build-runner
     with:
       environment: 'production'
-      version: 'latest-prod'
-    needs:
-      - build-runner
+      version: ${{ needs.build-runner.outputs.version }}
     secrets: inherit
