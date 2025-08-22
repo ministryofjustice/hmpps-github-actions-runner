@@ -17,12 +17,13 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v4
+
     - name: Map GitHub environment to Cloud Platform namespace
       id: cloud-platform
       shell: bash
       run: |
-        if [ '${{ inputs.environment }}' == 'dev' ]; then namespace='development'; fi
-        if [ '${{ inputs.environment }}' == 'prod' ]; then namespace='production'; fi
+        if [ '${{ inputs.environment }}' == 'development' ]; then namespace='dev'; fi
+        if [ '${{ inputs.environment }}' == 'production' ]; then namespace='prod'; fi
         echo "namespace=${namespace}" | tee -a "$GITHUB_OUTPUT"
-        echo "values-file=values-${{ inputs.environment }}.yaml" | tee -a "$GITHUB_OUTPUT"
+        echo "values-file=values-${namespace}.yaml" | tee -a "$GITHUB_OUTPUT"
