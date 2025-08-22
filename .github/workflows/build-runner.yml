@@ -2,22 +2,11 @@ name: Build and push the runner image
 
 on:
   workflow_call:
-    inputs:
-      push:
-        type: boolean
-        default: false
-      force-deploy:
-        type: boolean
-        default: false
+    
   workflow_dispatch:
-    inputs:
-      push:
-        description: Push images
-        type: boolean
-        default: false
 
 env:
-  push: ${{ inputs.push }}
+  push: True
   ghcr_token: ${{ secrets.GHCR_TOKEN}}
 
 jobs:
