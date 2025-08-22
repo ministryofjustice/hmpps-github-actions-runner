@@ -10,25 +10,25 @@ on:
 
 jobs:
   build-runner:
+    name: Build the latest Github Actions Runner image
     permissions:
       contents: read
       pull-requests: write
       deployments: write
       packages: write
-    name: Build
     uses: ./.github/workflows/build-runner.yml
     with:
       push: true
     secrets: inherit 
     
   # Only need to deploy to production nowadays
-  deploy_to_prod:
+  deploy-to-prod:
+    name: Deploy to prod
     permissions:
       contents: read
       deployments: write
       pull-requests: write
     if: github.ref == 'refs/heads/main'
-    name: Deploy to prod
     uses: ./.github/workflows/deploy.yml
     needs:
       - build-runner
