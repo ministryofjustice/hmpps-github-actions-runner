@@ -37,3 +37,8 @@ jobs:
       version: ${{ needs.build-runner.outputs.version }}
     secrets: inherit
 
+  runner-cleanup:
+    name: remove the remaining runners
+    needs: deploy-to-prod
+    uses: ./.github/workflows/runner-cleanup.yml
+
