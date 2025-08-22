@@ -47,3 +47,15 @@ jobs:
           push: ${{ env.push }}
           version: ${{ steps.app_version.outputs.version }}
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
+
+
+  delete-old-runner-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old gchr.io images for runner
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: hmpps-github-actions-runner
+          package-type: container
+          min-versions-to-keep: 10
+          delete-only-untagged-versions: false
