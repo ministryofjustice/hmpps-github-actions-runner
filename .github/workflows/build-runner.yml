@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Update Dockerfile FROM to use base image
-        run: sed -i.bak "s/FROM.*/FROM ghcr.io\/ministryofjustice\/hmpps-github-actions-runner-base:latest/" Dockerfile
+        run: sed -i.bak "s/FROM.*/FROM ghcr.io\/ministryofjustice\/hmpps-github-actions-runner-base:latest-prod/" Dockerfile
       - id: app_version
         name: Application version creators
         uses: ministryofjustice/hmpps-github-actions/.github/actions/build-test-and-deploy/create_app_version@v2.4 # WORKFLOW_VERSION
