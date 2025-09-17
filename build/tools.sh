@@ -116,6 +116,40 @@ function install_powershell() {
   ln -s /opt/powershell/pwsh /usr/bin/pwsh
 }
 
+function install_playwright() {
+  echo Installing playwright...
+  export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true
+  npm install -g playwright
+  npx playwright install-deps
+  npm uninstall -g playwright
+  npm cache clean --force
+}
+
+function install_ruby() {
+  echo Installing Ruby...
+
+  sudo apt install -y libssl-dev libreadline-dev git
+
+  # Install rbenv and ruby-build
+  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+  cd ~/.rbenv && src/configure && make -C src
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+  echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init - bash)"
+
+  # Install ruby-build plugin
+  git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+  # Install Ruby
+  rbenv install ${RUBY_VERSION}
+  rbenv global ${RUBY_VERSION}
+
+  # Verify installation
+  ruby -v
+
+}
+
 function install_vulnz() {
 # install the latest version of the vulnz tool
   mkdir -p /opt/vulnz/cache
