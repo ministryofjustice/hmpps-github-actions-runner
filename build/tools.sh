@@ -139,3 +139,7 @@ function install_tools() {
     fi
   done
 }
+
+function install_architecture-tools() {
+  ( apt-get install -y --no-install-recommends graphviz libgraphviz-dev || : )
+}
