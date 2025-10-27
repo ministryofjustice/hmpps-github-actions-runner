@@ -12,6 +12,13 @@
       ]
     },
     {
+      "category": "azcli",
+      "source": "script",
+      "packages": [
+        "azure-cli"
+      ]
+    },
+    {
       "category": "development",
       "source": "apt",
       "packages": [

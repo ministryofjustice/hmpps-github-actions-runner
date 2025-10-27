@@ -25,6 +25,10 @@ function install_aws-cli() {
     || pip3 install --no-cache-dir awscli
 }
 
+function install_az-cli() {
+  pip3 install --no-cache-dir azure-cli
+}
+
 function install_git-lfs() {
   local DPKG_ARCH
   DPKG_ARCH="$(dpkg --print-architecture)"
