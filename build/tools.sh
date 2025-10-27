@@ -25,7 +25,7 @@ function install_aws-cli() {
     || pip3 install --no-cache-dir awscli
 }
 
-function install_az-cli() {
+function install_azure-cli() {
   pip3 install --no-cache-dir azure-cli
 }
 
