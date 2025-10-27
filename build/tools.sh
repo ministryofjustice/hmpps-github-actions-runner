@@ -26,7 +26,7 @@ function install_aws-cli() {
 }
 
 function install_azure-cli() {
-  pip3 install --no-cache-dir azure-cli
+  curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 }
 
 function install_git-lfs() {
