@@ -42,4 +42,6 @@ jobs:
     needs: deploy-to-prod
     uses: ./.github/workflows/runner-cleanup.yml
     secrets: inherit 
-
+    permissions:
+      contents: read
+      pull-requests: write

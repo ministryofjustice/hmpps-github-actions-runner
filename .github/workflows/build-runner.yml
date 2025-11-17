@@ -31,7 +31,7 @@ jobs:
         run: sed -i.bak "s/FROM.*/FROM ghcr.io\/ministryofjustice\/hmpps-github-actions-runner-base:latest-prod/" Dockerfile
       - id: app_version
         name: Application version creators
-        uses: ministryofjustice/hmpps-github-actions/.github/actions/build-test-and-deploy/create_app_version@v2.7.2 # WORKFLOW_VERSION
+        uses: ministryofjustice/hmpps-github-actions/.github/actions/build-test-and-deploy/create_app_version@v2.8 # WORKFLOW_VERSION
       - name: GitHub app JWT and installation access token generation
         uses: jamestrousdale/github-app-jwt-token@0.1.4
         id: generate-github-app-tokens
@@ -61,3 +61,7 @@ jobs:
           package-type: container
           min-versions-to-keep: 10
           delete-only-untagged-versions: false
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: write
