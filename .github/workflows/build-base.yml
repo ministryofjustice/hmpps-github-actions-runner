@@ -48,7 +48,11 @@ jobs:
           dockerfile: Dockerfile.base
           version: ${{ steps.version.outputs.version }}
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
-
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: write
+      
   delete-old-base-images:
     runs-on: ubuntu-latest
     needs:
@@ -61,3 +65,7 @@ jobs:
           package-type: container
           min-versions-to-keep: 10
           delete-only-untagged-versions: false
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: write
