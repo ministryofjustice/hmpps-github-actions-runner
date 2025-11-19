@@ -26,7 +26,7 @@ jobs:
       version: ${{ steps.app_version.outputs.version }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.0.1
       - name: Update Dockerfile FROM to use base image
         run: sed -i.bak "s/FROM.*/FROM ghcr.io\/ministryofjustice\/hmpps-github-actions-runner-base:latest-prod/" Dockerfile
       - id: app_version
