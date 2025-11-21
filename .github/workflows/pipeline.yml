@@ -11,6 +11,10 @@ on:
 
   workflow_call:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   build-runner:
     name: Build the latest Github Actions Runner image
