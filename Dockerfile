@@ -60,6 +60,12 @@ echo "${ACTIONS_RUNNER_PKG_SHA}"  "actions-runner-linux-x64-${ACTIONS_RUNNER_VER
 tar --extract --gzip --file="actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz" --directory="${CONTAINER_HOME}"
 
 rm --force "actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz"
+
+# Clean up package caches to reduce image size
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+rm -rf /tmp/*
+rm -rf /var/tmp/*
 EOF
 
 COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint.sh
