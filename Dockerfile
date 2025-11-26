@@ -1,5 +1,5 @@
 #checkov:skip=CKV_DOCKER_2:actions/runner does not provider a mechanism for checking the health of the service
-FROM public.ecr.aws/ubuntu/ubuntu:24.04_stable
+FROM ubuntu:noble
 
 LABEL org.opencontainers.image.vendor="Ministry of Justice" \
       org.opencontainers.image.authors="HMPPS DPS" \
@@ -12,14 +12,24 @@ ENV CONTAINER_USER="runner" \
     CONTAINER_GROUP="runner" \
     CONTAINER_GID="10000" \
     CONTAINER_HOME="/actions-runner" \
-    DEBIAN_FRONTEND="noninteractive"
+    DEBIAN_FRONTEND="noninteractive" \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
+    DUMB_INIT_VERSION="1.2.2" \
+    GIT_LFS_VERSION="3.7.1" \
+    VULNZ_VERSION="9.0.2"
 
 # Checked by renovate
 ENV ACTIONS_RUNNER_VERSION="2.330.0"
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 
+COPY --chmod=700 build/ /tmp/build/
+
 RUN <<EOF
+
+/tmp/build/install_base.sh
 
 groupadd \
   --gid ${CONTAINER_GID} \
@@ -50,6 +60,12 @@ echo "${ACTIONS_RUNNER_PKG_SHA}"  "actions-runner-linux-x64-${ACTIONS_RUNNER_VER
 tar --extract --gzip --file="actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz" --directory="${CONTAINER_HOME}"
 
 rm --force "actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz"
+
+# Clean up package caches to reduce image size
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+rm -rf /tmp/*
+rm -rf /var/tmp/*
 EOF
 
 COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint.sh
