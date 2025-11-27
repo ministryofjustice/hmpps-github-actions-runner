@@ -30,7 +30,7 @@
         "libpq-dev",
         "pkg-config",
         "software-properties-common",
-        "openjdk-17-jre-headless"
+        "openjdk-21-jre-headless"
       ]
     },
     {

@@ -33,8 +33,10 @@ function install_tools_apt() {
 }
 
 function remove_caches() {
+  apt-get clean
   rm -rf /var/lib/apt/lists/*
   rm -rf /tmp/*
+  rm -rf /var/tmp/*
 }
 
 function setup_sudoers() {
