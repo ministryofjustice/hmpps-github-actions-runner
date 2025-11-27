@@ -1,0 +1,19 @@
+# Trivy vuln DB is incorrectly reporting CVE-2024-52308 as affecting gh version 2.83.1
+CVE-2024-52308
+
+# Vulnerabilities in bundled Node.js npm packages within GitHub Actions Runner
+# These are transitive dependencies of the runner binary itself, not code we control
+# The runner is distributed as a pre-compiled tarball from https://github.com/actions/runner
+# Monitor: https://github.com/actions/runner/security/advisories for upstream fixes
+
+# CVE-2024-21538: ReDoS vulnerability in cross-spawn <7.0.5
+# Affects: cross-spawn when processing maliciously crafted command strings
+# Risk assessment: Low - runner doesn't expose cross-spawn to external/untrusted input
+# Reference: https://github.com/advisories/GHSA-3xgq-45jj-v275
+CVE-2024-21538
+
+# CVE-2025-64756: Command injection in glob CLI tool via -c/--cmd flag with shell:true
+# Affects: glob <10.5.0 / <11.1.0 when used as CLI with specific flags
+# Risk assessment: Low - runner uses glob as a library dependency, not as a CLI tool
+# Reference: https://www.cve.org/CVERecord?id=CVE-2025-64756
+CVE-2025-64756
