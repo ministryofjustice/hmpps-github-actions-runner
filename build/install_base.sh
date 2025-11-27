@@ -33,8 +33,11 @@ function install_tools_apt() {
 }
 
 function remove_caches() {
-  apt-get clean
-  rm -rf /var/lib/apt/lists/*
+  # Don't clean apt caches - they're handled by BuildKit cache mounts in Dockerfile
+  # apt-get clean
+  # rm -rf /var/lib/apt/lists/*
+  
+  # Clean temp directories to reduce final image size
   rm -rf /tmp/*
   rm -rf /var/tmp/*
 }
