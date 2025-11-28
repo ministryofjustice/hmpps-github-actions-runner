@@ -17,8 +17,7 @@ ENV CONTAINER_USER="runner" \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \
     DUMB_INIT_VERSION="1.2.2" \
-    GIT_LFS_VERSION="3.7.1" \
-    VULNZ_VERSION="9.0.2"
+    GIT_LFS_VERSION="3.7.1"
 
 # Checked by renovate
 ENV ACTIONS_RUNNER_VERSION="2.330.0"

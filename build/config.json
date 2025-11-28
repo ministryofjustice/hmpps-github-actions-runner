@@ -125,13 +125,6 @@
       ]
     },
     {
-      "category": "vulnz",
-      "source": "script",
-      "packages": [
-        "vulnz"
-      ]
-    },
-    {
       "category": "architecture-tools",
       "source": "script",
       "packages": [
