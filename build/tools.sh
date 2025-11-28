@@ -97,6 +97,9 @@ function install_playwright() {
   npx playwright install-deps
   npm uninstall -g playwright
   npm cache clean --force
+  # Remove Node.js after Playwright deps installed - workflows use actions/setup-node
+  apt-get remove -y nodejs
+  apt-get autoremove -y
 }
 
 function install_powershell() {

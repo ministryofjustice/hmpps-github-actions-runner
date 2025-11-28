@@ -30,7 +30,7 @@ function configure_docker() {
 }
 
 function configure_nodejs() {
-  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
+  curl -fsSL https://deb.nodesource.com/setup_24.x | sudo bash -
 }
 
 function configure_container_tools() {
