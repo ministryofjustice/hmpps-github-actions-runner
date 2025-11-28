@@ -2,6 +2,11 @@ name: Build and push the runner image
 
 on:
   workflow_call:
+    inputs:
+      push:
+        description: Whether to push the built image to registry
+        type: boolean
+        default: false
 
     outputs:
       version:
@@ -9,9 +14,13 @@ on:
         value: ${{ jobs.build-runner.outputs.version }}
 
   workflow_dispatch:
+    inputs:
+      push:
+        description: Whether to push the built image to registry
+        type: boolean
+        default: false
 
 env:
-  push: True
   ghcr_token: ${{ secrets.GHCR_TOKEN}}
 
 jobs:
@@ -42,13 +51,14 @@ jobs:
         id: build
         with:
           project: 'hmpps-github-actions-runner'
-          push: ${{ env.push }}
+          push: ${{ inputs.push }}
           version: ${{ steps.app_version.outputs.version }}
           gh_auth_token: ${{ steps.generate-github-app-tokens.outputs.access-token }}
 
 
   delete-old-runner-images:
     runs-on: ubuntu-latest
+    if: inputs.push == true
     needs:
       build-runner
     steps:
