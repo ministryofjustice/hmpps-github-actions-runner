@@ -17,8 +17,7 @@ ENV CONTAINER_USER="runner" \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \
     DUMB_INIT_VERSION="1.2.2" \
-    GIT_LFS_VERSION="3.7.1" \
-    VULNZ_VERSION="9.0.2"
+    GIT_LFS_VERSION="3.7.1"
 
 # Checked by renovate
 ENV ACTIONS_RUNNER_VERSION="2.330.0"
@@ -28,6 +27,8 @@ SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 COPY --chmod=700 build/ /tmp/build/
 
 # Install base tools and configure sources (cacheable layer)
+# Cache package lists and downloaded .deb files to avoid re-downloading on rebuilds
+# Pattern from: https://docs.docker.com/reference/dockerfile/#example-cache-apt-packages
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     /tmp/build/install_base.sh

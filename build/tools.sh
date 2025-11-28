@@ -97,6 +97,9 @@ function install_playwright() {
   npx playwright install-deps
   npm uninstall -g playwright
   npm cache clean --force
+  # Remove Node.js after Playwright deps installed - workflows use actions/setup-node
+  apt-get remove -y nodejs
+  apt-get autoremove -y
 }
 
 function install_powershell() {
@@ -118,14 +121,6 @@ function install_powershell() {
   tar zxf /tmp/powershell.tar.gz -C /opt/powershell
   chmod +x /opt/powershell/pwsh
   ln -s /opt/powershell/pwsh /usr/bin/pwsh
-}
-
-function install_vulnz() {
-# install the latest version of the vulnz tool
-  mkdir -p /opt/vulnz/cache
-  curl -L -o /opt/vulnz/vulnz.jar https://github.com/jeremylong/open-vulnerability-cli/releases/download/v${VULNZ_VERSION}/vulnz-${VULNZ_VERSION}.jar
-  chmod -R a+xr /opt/vulnz
-  chmod -R a+w /opt/vulnz/cache
 }
 
 function install_tools() {

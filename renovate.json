@@ -38,9 +38,6 @@
       "managerFilePatterns": [
         "/^Dockerfile.*/"
       ],
-      "matchStrings": [       
-        "ENV VULNZ_VERSION=\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
-      ],
       "datasourceTemplate": "github-releases",
       "packageNameTemplate": "jeremylong/open-vulnerability-cli",
       "versioningTemplate": "semver",
