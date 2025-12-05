@@ -9,8 +9,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^Dockerfile.*/"
+      "fileMatch": [
+        "^Dockerfile.*"
       ],
       "matchStrings": [       
         "ENV ACTIONS_RUNNER_VERSION=\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
@@ -22,8 +22,8 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^Dockerfile.*/"
+      "fileMatch": [
+        "^Dockerfile.*"
       ],
       "matchStrings": [       
         "ENV GIT_LFS_VERSION=\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
@@ -35,8 +35,11 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^Dockerfile.*/"
+      "fileMatch": [
+        "^Dockerfile.*"
+      ],
+      "matchStrings": [       
+        "ENV OPEN_VULNERABILITY_CLI_VERSION=\"(?<currentValue>\\d+\\.\\d+\\.\\d+)\""
       ],
       "datasourceTemplate": "github-releases",
       "packageNameTemplate": "jeremylong/open-vulnerability-cli",
@@ -55,8 +58,8 @@
     },
     {
       "matchManagers": ["github-actions"],
-      "matchPackagePatterns": [".*"],
-      "versioning": "digest"
+      "versioning": "digest",
+      "matchPackageNames": ["/.*/"]
     }
   ]
 }
