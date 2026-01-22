@@ -39,7 +39,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v6.0.1
+    - uses: actions/checkout@v6.0.2
 
     - name: Get environment details
       uses: ./.github/actions/get-env-details
