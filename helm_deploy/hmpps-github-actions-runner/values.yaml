@@ -2,7 +2,7 @@
 generic-service:
   nameOverride: hmpps-github-actions-runner
 
-  replicaCount: 2 # enough to run e2e tests
+  replicaCount: 4 # enough to run e2e tests
 
   image:
     repository: ghcr.io/ministryofjustice/hmpps-github-actions-runner
