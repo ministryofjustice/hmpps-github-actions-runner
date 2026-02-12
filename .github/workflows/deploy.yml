@@ -1,7 +1,7 @@
 name: Deploy the runner cluster
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:      
       environment:
         description: The name of the environment to deploy to (dev/prod)
