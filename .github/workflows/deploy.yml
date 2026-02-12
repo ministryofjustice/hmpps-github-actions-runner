@@ -12,6 +12,17 @@ on:
         type: string
         default: 'latest-prod'
         required: true
+  workflow_call:
+    inputs:      
+      environment:
+        description: The name of the environment to deploy to (dev/prod)
+        type: string
+        required: true
+      version:
+        description: The image version to deploy
+        type: string
+        default: 'latest-prod'
+        required: true
 
 jobs:
   deploy:
