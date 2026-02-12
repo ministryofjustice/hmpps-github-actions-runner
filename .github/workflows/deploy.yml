@@ -10,7 +10,7 @@ on:
       version:
         description: The image version to deploy
         type: string
-        default: 'latest-prod'
+        default: 'latest'
         required: true
   workflow_call:
     inputs:      
@@ -21,7 +21,7 @@ on:
       version:
         description: The image version to deploy
         type: string
-        default: 'latest-prod'
+        default: 'latest'
         required: true
 
 jobs:
