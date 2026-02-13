@@ -34,12 +34,10 @@ if command -v gradle &>/dev/null || [[ -d "${GRADLE_USER_HOME}/daemon" ]]; then
   pkill -f 'GradleDaemon' 2>/dev/null || true
 fi
 
-# --- npm / Node.js cleanup ---
-# Actions like actions/setup-node can leave behind .npm caches
-if [[ -d "${HOME}/.npm/_logs" ]]; then
-  echo "Cleaning npm logs"
-  rm -rf "${HOME}/.npm/_logs" 2>/dev/null || true
-fi
+# Clean out the home directory
+  echo "Cleaning the home directory"
+  rm -rf "${HOME}/.*" 2>/dev/null || true
+  rm -rf "${HOME}/*" 2>/dev/null || true
 
 # --- Workspace cleanup ---
 # The runner's built-in cleanup should handle the _work directory, but
