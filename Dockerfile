@@ -57,6 +57,15 @@ RUN curl --location "https://github.com/actions/runner/releases/download/v${ACTI
     rm --force "actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz"
 
 COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/job-started.sh /usr/local/bin/job-started.sh
+COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/job-completed.sh /usr/local/bin/job-completed.sh
+
+# Configure runner job lifecycle hooks for persistent (non-ephemeral) runners.
+# These scripts run before/after every job to clean up state that actions leave
+# behind (e.g. gradle/actions/setup-gradle init scripts in ~/.gradle/init.d/).
+# See: https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/running-scripts-before-or-after-a-job
+ENV ACTIONS_RUNNER_HOOK_JOB_STARTED=/usr/local/bin/job-started.sh \
+    ACTIONS_RUNNER_HOOK_JOB_COMPLETED=/usr/local/bin/job-completed.sh
 
 USER ${CONTAINER_UID}
 
