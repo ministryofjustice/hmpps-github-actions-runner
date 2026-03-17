@@ -29,8 +29,7 @@
         "libcurl4-openssl-dev",
         "libpq-dev",
         "pkg-config",
-        "software-properties-common",
-        "openjdk-21-jre-headless"
+        "software-properties-common"
       ]
     },
     {

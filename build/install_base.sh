@@ -65,7 +65,11 @@ source "$scripts_dir/tools.sh"
 # shellcheck source=/dev/null
 source "$scripts_dir/config.sh"
 
+# Do a much-needed upgrade first
 apt-get update
+apt-get upgrade -y
+
+# Then do some installing
 install_essentials
 configure_sources
 
