@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - id: app_version
         name: Application version creators
-        uses: ministryofjustice/hmpps-github-actions/.github/actions/build-test-and-deploy/create_app_version@v2 # WORKFLOW_VERSION
+        uses: ministryofjustice/hmpps-github-shared-actions/.github/actions/build-test-and-deploy/create_app_version@6ca6653862e916a9221d915216228aee57717570 # WORKFLOW_VERSION
       - name: GitHub app installation access token generation
         uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3
         id: generate-github-app-tokens
@@ -63,7 +63,7 @@ jobs:
       build-runner
     steps:
       - name: Delete old gchr.io images for runner
-        uses: actions/delete-package-versions@v5
+        uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5
         with:
           package-name: hmpps-github-actions-runner
           package-type: container
