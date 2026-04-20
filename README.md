@@ -10,6 +10,7 @@ For teams wishing to **use these runners in your own pipelines**, the documentat
 ### Repo secrets
 
 - GH_PRIVATE_KEY - A private key for a Github App that has rights to create runners in the destination repository
+- GH_APP_CLIENT_ID  - the corresponding App client Id for the Github App
 
 ### Environment secrets (populated by Cloud Platforms terraform)
 
@@ -21,7 +22,6 @@ For teams wishing to **use these runners in your own pipelines**, the documentat
 
 ### Repo environment variables
 
-- GH_APP_ID - the corresponding AppId for the Github App
 - RUNNER_LABEL - the label by which the runner is invoked
 - RUNNER_GROUP - the runner group to assign the new runners to.
 
