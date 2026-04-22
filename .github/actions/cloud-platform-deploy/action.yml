@@ -64,9 +64,9 @@ runs:
         yq -i ".appVersion = \"${{ inputs.version }}\"" "helm_deploy/${{ github.event.repository.name }}/Chart.yaml"
         helm dependency update "helm_deploy/${{ github.event.repository.name }}"
         exec helm upgrade '${{ github.event.repository.name }}' 'helm_deploy/${{ github.event.repository.name }}' \
-          --atomic \
+          --rollback-on-failure \
           --history-max 10 \
-          --force \
+          --force-replace \
           --install \
           --reset-values \
           --set 'generic-service.image.tag=${{ inputs.version }}' \
