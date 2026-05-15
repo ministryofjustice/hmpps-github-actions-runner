@@ -96,8 +96,7 @@
       "category": "playwright",
       "source": "script",
       "packages": [
-        "playwright",
-        "playwright-dependencies"
+        "playwright"
       ]
     },
     {

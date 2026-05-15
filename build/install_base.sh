@@ -83,6 +83,5 @@ install_tools
 # usermod -aG sudo runner
 # usermod -aG docker runner
 
-remove_playwright
 remove_sources
 remove_caches
