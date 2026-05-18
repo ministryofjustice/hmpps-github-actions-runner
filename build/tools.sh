@@ -92,8 +92,10 @@ function install_yq() {
 
 function install_playwright() {
   echo Installing playwright...
-  export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true
+  mkdir -p /opt/playwright
+  export PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
   npm install -g playwright
+  # Install OS dependencies in the image; workflows can install browser binaries as non-root.
   npx playwright install-deps chrome-for-testing chromium-headless-shell firefox webkit ffmpeg chrome msedge
   npm uninstall -g playwright
   npm cache clean --force
