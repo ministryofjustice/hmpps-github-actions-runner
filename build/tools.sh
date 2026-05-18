@@ -95,8 +95,8 @@ function install_playwright() {
   mkdir -p /opt/playwright
   export PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
   npm install -g playwright
-  # Install OS dependencies in the image; workflows can install browser binaries as non-root.
-  npx playwright install-deps chrome-for-testing chromium-headless-shell firefox webkit ffmpeg chrome msedge
+  # Pre-install browsers and OS dependencies so workflows do not need runtime install steps.
+  npx playwright install --with-deps chrome-for-testing chromium-headless-shell firefox webkit ffmpeg chrome msedge
   npm uninstall -g playwright
   npm cache clean --force
   # Remove Node.js after Playwright deps installed - workflows use actions/setup-node

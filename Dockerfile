@@ -12,6 +12,7 @@ ENV CONTAINER_USER="runner" \
     CONTAINER_GROUP="runner" \
     CONTAINER_GID="10000" \
     CONTAINER_HOME="/actions-runner" \
+    PLAYWRIGHT_BROWSERS_PATH="/opt/playwright" \
     DEBIAN_FRONTEND="noninteractive" \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
@@ -44,6 +45,8 @@ RUN groupadd \
       --create-home \
       ${CONTAINER_USER} && \
     mkdir --parents ${CONTAINER_HOME} && \
+    mkdir --parents ${PLAYWRIGHT_BROWSERS_PATH} && \
+    chown --recursive ${CONTAINER_USER}:${CONTAINER_GROUP} ${PLAYWRIGHT_BROWSERS_PATH} && \
     chown --recursive ${CONTAINER_USER}:${CONTAINER_GROUP} ${CONTAINER_HOME}
 
 # Download and install GitHub Actions runner (changes frequently with ACTIONS_RUNNER_VERSION)
