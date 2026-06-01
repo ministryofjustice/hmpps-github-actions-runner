@@ -66,7 +66,6 @@ runs:
         exec helm upgrade '${{ github.event.repository.name }}' 'helm_deploy/${{ github.event.repository.name }}' \
           --rollback-on-failure \
           --history-max 10 \
-          --force-replace \
           --install \
           --reset-values \
           --set 'generic-service.image.tag=${{ inputs.version }}' \
@@ -78,3 +77,4 @@ runs:
           --set generic-service.env.RUNNER_LABEL="${{ inputs.runner_label }}" \
           --set generic-service.env.RUNNER_GROUP="${{ inputs.runner_group }}" \
           --set generic-service.env.GH_ORG="${{ inputs.github_org }}" 
+
