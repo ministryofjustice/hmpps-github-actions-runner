@@ -21,7 +21,7 @@ ENV CONTAINER_USER="runner" \
     GIT_LFS_VERSION="3.7.1"
 
 # Checked by renovate
-ENV ACTIONS_RUNNER_VERSION="2.334.0"
+ENV ACTIONS_RUNNER_VERSION="2.335.1"
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 
