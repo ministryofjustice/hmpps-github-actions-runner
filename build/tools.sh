@@ -147,13 +147,20 @@ function install_oracle-instant-client() {
       ;;
   esac
 
+  if apt-cache show libaio1t64 > /dev/null 2>&1; then
+    apt-get install -y --no-install-recommends libaio1t64
+  else
+    apt-get install -y --no-install-recommends libaio1
+  fi
+
   apt-get install -y --no-install-recommends \
-    libaio1t64 \
     unzip \
     ca-certificates \
     curl
 
-  ln -sf "${LIBAIO_DIR}/libaio.so.1t64" "${LIBAIO_DIR}/libaio.so.1"
+  if [[ -f "${LIBAIO_DIR}/libaio.so.1t64" ]]; then
+    ln -sf "${LIBAIO_DIR}/libaio.so.1t64" "${LIBAIO_DIR}/libaio.so.1"
+  fi
 
   mkdir -p /opt/oracle
   curl -L -o /opt/oracle/instantclient.zip \
