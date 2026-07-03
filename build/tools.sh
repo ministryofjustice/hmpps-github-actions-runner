@@ -126,11 +126,9 @@ function install_powershell() {
 }
 
 function install_oracle-instant-client() {
-  local DPKG_ARCH ORACLE_CLIENT_ARCH ORACLE_CLIENT_VERSION ORACLE_CLIENT_BUILD LIBAIO_DIR
+  local DPKG_ARCH ORACLE_CLIENT_ARCH LIBAIO_DIR
 
   DPKG_ARCH="$(dpkg --print-architecture)"
-  ORACLE_CLIENT_VERSION="23.26.2.0.0"
-  ORACLE_CLIENT_BUILD="2326200"
 
   case "${DPKG_ARCH}" in
     amd64)
