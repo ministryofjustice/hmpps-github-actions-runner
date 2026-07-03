@@ -125,6 +125,52 @@ function install_powershell() {
   ln -s /opt/powershell/pwsh /usr/bin/pwsh
 }
 
+function install_oracle-instant-client() {
+  local DPKG_ARCH ORACLE_CLIENT_ARCH ORACLE_CLIENT_VERSION ORACLE_CLIENT_BUILD LIBAIO_DIR
+
+  DPKG_ARCH="$(dpkg --print-architecture)"
+  ORACLE_CLIENT_VERSION="23.26.2.0.0"
+  ORACLE_CLIENT_BUILD="2326200"
+
+  case "${DPKG_ARCH}" in
+    amd64)
+      ORACLE_CLIENT_ARCH="x64"
+      LIBAIO_DIR="/usr/lib/x86_64-linux-gnu"
+      ;;
+    arm64)
+      ORACLE_CLIENT_ARCH="arm64"
+      LIBAIO_DIR="/usr/lib/aarch64-linux-gnu"
+      ;;
+    *)
+      echo "Unsupported architecture for Oracle Instant Client: ${DPKG_ARCH}"
+      exit 1
+      ;;
+  esac
+
+  apt-get install -y --no-install-recommends \
+    libaio1t64 \
+    unzip \
+    ca-certificates \
+    curl
+
+  ln -sf "${LIBAIO_DIR}/libaio.so.1t64" "${LIBAIO_DIR}/libaio.so.1"
+
+  mkdir -p /opt/oracle
+  curl -L -o /opt/oracle/instantclient.zip \
+    "https://download.oracle.com/otn_software/linux/instantclient/${ORACLE_CLIENT_BUILD}/instantclient-basic-linux.${ORACLE_CLIENT_ARCH}-${ORACLE_CLIENT_VERSION}.zip"
+  unzip /opt/oracle/instantclient.zip -d /opt/oracle
+  rm /opt/oracle/instantclient.zip
+  ln -sfn /opt/oracle/instantclient_* /opt/oracle/instantclient
+
+  echo '/opt/oracle/instantclient' > /etc/ld.so.conf.d/oracle-instantclient.conf
+  ldconfig
+
+  cat >/etc/profile.d/oracle-instantclient.sh <<'EOF'
+export LD_LIBRARY_PATH=/opt/oracle/instantclient${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export PATH=/opt/oracle/instantclient:${PATH}
+EOF
+}
+
 function install_tools() {
   local function_name
   # shellcheck source=/dev/null

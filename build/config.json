@@ -107,6 +107,13 @@
       ]
     },
     {
+      "category": "oracle",
+      "source": "script",
+      "packages": [
+        "oracle-instant-client"
+      ]
+    },
+    {
       "category": "python",
       "source": "apt",
       "packages": [
