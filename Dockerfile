@@ -23,7 +23,7 @@ ENV CONTAINER_USER="runner" \
     ORACLE_CLIENT_BUILD="2326200"
 
 # Checked by renovate
-ENV ACTIONS_RUNNER_VERSION="2.336.0"
+ENV ACTIONS_RUNNER_VERSION="2.337.0"
 
 SHELL ["/bin/bash", "-e", "-u", "-o", "pipefail", "-c"]
 
