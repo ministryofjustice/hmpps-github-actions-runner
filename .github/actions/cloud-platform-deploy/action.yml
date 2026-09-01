@@ -23,9 +23,6 @@ inputs:
   token:
     description: The KUBE_TOKEN
     required: true
-  gh_auth_token:
-    description: Auth token for Github
-    required: true
   github_org:
     description: The github org in which the runners are deployed
     required: true
@@ -73,8 +70,6 @@ runs:
           --timeout 10m \
           --values 'helm_deploy/${{ steps.env.outputs.values-file }}' \
           --wait \
-          --set generic-service.env.GH_AUTH_TOKEN="${{ inputs.gh_auth_token }}" \
           --set generic-service.env.RUNNER_LABEL="${{ inputs.runner_label }}" \
           --set generic-service.env.RUNNER_GROUP="${{ inputs.runner_group }}" \
-          --set generic-service.env.GH_ORG="${{ inputs.github_org }}" 
-
+          --set generic-service.env.GH_ORG="${{ inputs.github_org }}"

@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+# Get the token
+source /usr/local/bin/get_token.sh
+
+
 ACTIONS_RUNNER_DIRECTORY="/actions-runner"
 EPHEMERAL="${EPHEMERAL:-"false"}"
 
@@ -12,16 +16,7 @@ echo "  Runner Labels: ${RUNNER_LABEL}"
 echo "  Runner group: ${RUNNER_GROUP}"
 
 echo "Obtaining registration token"
-getRegistrationToken=$(
-  curl \
-    --silent \
-    --location \
-    --request "POST" \
-    --header "Accept: application/vnd.github+json" \
-    --header "X-GitHub-Api-Version: 2022-11-28" \
-    --header "Authorization: Bearer ${GH_AUTH_TOKEN}" \
-    "https://api.github.com/orgs/${GH_ORG}/actions/runners/registration-token" | jq -r '.token'
-)
+getRegistrationToken="${RUNNER_REG_TOKEN}"
 export getRegistrationToken
 
 echo "Checking if registration token exists"
@@ -41,7 +36,7 @@ else
 fi
 
 echo "Checking the runner"
-bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" --check --url "https://github.com/${GH_ORG}" --pat ${GH_AUTH_TOKEN}
+bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" --check --url "https://github.com/${GH_ORG}" --pat "${GH_INSTALLATION_TOKEN}"
 
 echo "Configuring runner"
 bash "${ACTIONS_RUNNER_DIRECTORY}/config.sh" ${EPHEMERAL_FLAG} \
