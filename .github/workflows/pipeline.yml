@@ -30,7 +30,6 @@ jobs:
     uses: ./.github/workflows/build-runner.yml
     with:
       push: ${{ github.ref == 'refs/heads/main' }}
-    secrets: inherit 
     
   # Only need to deploy to prod nowadays
   deploy-to-prod:
