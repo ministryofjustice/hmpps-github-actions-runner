@@ -1,5 +1,5 @@
 #checkov:skip=CKV_DOCKER_2:actions/runner does not provider a mechanism for checking the health of the service
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 LABEL org.opencontainers.image.vendor="Ministry of Justice" \
       org.opencontainers.image.authors="HMPPS DPS" \
@@ -62,7 +62,6 @@ RUN curl --location "https://github.com/actions/runner/releases/download/v${ACTI
     rm --force "actions-runner-linux-x64-${ACTIONS_RUNNER_VERSION}.tar.gz"
 
 COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/get_token.sh /usr/local/bin/get_token.sh
 COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/job-started.sh /usr/local/bin/job-started.sh
 COPY --chown=nobody:nobody --chmod=0755 src/usr/local/bin/job-completed.sh /usr/local/bin/job-completed.sh
 
