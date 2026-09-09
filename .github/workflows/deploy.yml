@@ -4,8 +4,9 @@ on:
   workflow_dispatch:
     inputs:      
       environment:
-        description: The name of the environment to deploy to (dev/prod)
+        description: The name of the environment to deploy to (only prod these days)
         type: string
+        default: 'prod'
         required: true
       version:
         description: The image version to deploy
@@ -15,7 +16,7 @@ on:
   workflow_call:
     inputs:      
       environment:
-        description: The name of the environment to deploy to (dev/prod)
+        description: The name of the environment to deploy to (only prod, really)
         type: string
         required: true
       version:
