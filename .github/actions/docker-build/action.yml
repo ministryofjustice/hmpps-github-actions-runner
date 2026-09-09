@@ -12,8 +12,6 @@ inputs:
     default: 'false'
   version:
     description: Version
-  gh_auth_token:
-    description: GitHub token
 
 runs:
   using: "composite"
@@ -39,5 +37,3 @@ runs:
           ghcr.io/ministryofjustice/${{ inputs.project }}:latest
           ghcr.io/ministryofjustice/${{ inputs.project }}:latest-prod
           ghcr.io/ministryofjustice/${{ inputs.project }}:${{ inputs.version }}
-      env:
-        GH_AUTH_TOKEN: ${{ inputs.gh_auth_token }}

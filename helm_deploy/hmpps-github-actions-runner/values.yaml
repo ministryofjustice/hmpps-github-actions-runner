@@ -29,14 +29,26 @@ generic-service:
     timeoutSeconds: 5
     failureThreshold: 5
 
-  # Pre-existing kubernetes secrets to load as environment variables in the deployment.
-  # namespace_secrets:
-  #   [name of kubernetes secret]:
-  #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
+  env:
+    GH_APP_PRIVATE_KEY_PATH: /var/run/secrets/github-app/private-key.pem
 
-  envFrom:
-    - secretRef:
-        name: hmpps-github-actions-runner
+  namespace_secrets:
+    hmpps-github-actions-runner:
+      GH_APP_ID: GH_APP_ID
+
+  volumes:
+    - name: github-app-key
+      secret:
+        secretName: hmpps-github-actions-runner
+        items:
+          - key: GH_APP_PRIVATE_KEY
+            path: private-key.pem
+        defaultMode: 0400
+
+  volumeMounts:
+    - name: github-app-key
+      mountPath: /var/run/secrets/github-app
+      readOnly: true
 
 generic-prometheus-alerts:
   targetApplication: hmpps-github-actions-runner
