@@ -9,9 +9,31 @@ echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/
 rm -f /var/cache/apt/archives/lock
 rm -f /var/lib/apt/lists/lock
 
+function apt_install_with_software_properties_common_fallback() {
+  local -a packages=("$@")
+  local -a fallback_packages=()
+  local package
+  local has_software_properties_common=false
+
+  for package in "${packages[@]}"; do
+    if [[ "${package}" == "software-properties-common" ]]; then
+      has_software_properties_common=true
+    else
+      fallback_packages+=("${package}")
+    fi
+  done
+
+  if [[ "${has_software_properties_common}" == "true" ]]; then
+    apt-get install -y --no-install-recommends "${packages[@]}" \
+      || apt-get install -y --no-install-recommends "${fallback_packages[@]}"
+  else
+    apt-get install -y --no-install-recommends "${packages[@]}"
+  fi
+}
+
 # Required by the build or runner operation
 function install_essentials() {
-  apt-get install -y --no-install-recommends \
+  apt_install_with_software_properties_common_fallback \
       libicu-dev \
       lsb-release \
       ca-certificates \
@@ -19,6 +41,7 @@ function install_essentials() {
       git \
       jq \
       gnupg \
+      software-properties-common \
       tar \
       unzip \
       zip \
@@ -37,7 +60,14 @@ function install_essentials() {
 }
 
 function install_tools_apt() {
-  apt_packages | xargs apt-get install -y --no-install-recommends
+  local apt_packages_list
+  local -a packages=()
+
+  apt_packages_list="$(apt_packages)"
+  if [[ -n "${apt_packages_list}" ]]; then
+    read -r -a packages <<< "${apt_packages_list}"
+    apt_install_with_software_properties_common_fallback "${packages[@]}"
+  fi
 }
 
 function remove_caches() {
