@@ -48,7 +48,6 @@ function install_essentials() {
       apt-transport-https \
       sudo \
       gcc \
-      dirmngr \
       locales \
       gosu \
       gpg-agent \
