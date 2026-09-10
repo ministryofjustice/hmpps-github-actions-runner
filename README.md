@@ -1,7 +1,7 @@
 # hmpps-github-actions-runner
 This project builds and deploys self-hosted Github Runners to the MinistryOfJustice github organisation. It's deployed to Cloud Platforms, using Helm.
 
-For teams wishing to **use these runners in your own pipelines**, the documentation is [here](https://tech-docs.hmpps.service.justice.gov.uk/sre-internal-docs/).
+For teams wishing to **use these runners in your own pipelines**, the documentation is [here](https://tech-docs.hmpps.service.justice.gov.uk/shared-tooling/self-hosted-runners/).
 
 # Building and Deploying
 
