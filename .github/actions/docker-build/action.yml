@@ -10,6 +10,12 @@ inputs:
   push:
     description: Whether to push images to the registry
     default: 'false'
+  no-cache:
+    description: Whether to disable Docker build cache
+    default: 'false'
+  pull:
+    description: Whether to pull newer base image layers
+    default: 'false'
   version:
     description: Version
 
@@ -32,6 +38,8 @@ runs:
         context: .
         file: ${{ inputs.dockerfile}}
         push: ${{ inputs.push }}
+        no-cache: ${{ inputs.no-cache }}
+        pull: ${{ inputs.pull }}
         provenance: false
         tags: |
           ghcr.io/ministryofjustice/${{ inputs.project }}:latest
