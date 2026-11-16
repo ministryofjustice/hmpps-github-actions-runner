@@ -31,6 +31,7 @@ jobs:
       environment: ${{ matrix.environments }}
   build-runner:
     name: Build the latest Github Actions Runner image
+    needs: helm_lint
     permissions:
       contents: read
       pull-requests: write
